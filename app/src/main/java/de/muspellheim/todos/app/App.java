@@ -3,19 +3,18 @@
  */
 package de.muspellheim.todos.app;
 
-import de.muspellheim.todos.list.LinkedList;
-
+import static de.muspellheim.todos.app.MessageUtils.getMessage;
 import static de.muspellheim.todos.utilities.StringUtils.join;
 import static de.muspellheim.todos.utilities.StringUtils.split;
-import static de.muspellheim.todos.app.MessageUtils.getMessage;
 
+import de.muspellheim.todos.list.LinkedList;
 import org.apache.commons.text.WordUtils;
 
 public class App {
-    public static void main(String[] args) {
-        LinkedList tokens;
-        tokens = split(getMessage());
-        String result = join(tokens);
-        System.out.println(WordUtils.capitalize(result));
-    }
+  public static void main(String[] args) {
+    LinkedList tokens;
+    tokens = split(getMessage());
+    String result = join(tokens);
+    System.out.println(WordUtils.capitalize(result));
+  }
 }

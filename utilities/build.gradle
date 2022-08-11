@@ -3,9 +3,9 @@
  */
 
 plugins {
-    id 'de.muspellheim.todos.java-library-conventions'
+  id 'de.muspellheim.todos.java-library-conventions'
 }
 
 dependencies {
-    api project(':list')
+  api project(':list')
 }
