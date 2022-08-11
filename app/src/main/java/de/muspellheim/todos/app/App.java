@@ -11,6 +11,7 @@ import de.muspellheim.todos.list.LinkedList;
 import org.apache.commons.text.WordUtils;
 
 public class App {
+  @SuppressWarnings("PMD.SystemPrintln")
   public static void main(String[] args) {
     LinkedList tokens;
     tokens = split(getMessage());

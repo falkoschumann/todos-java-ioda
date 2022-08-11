@@ -58,9 +58,10 @@ public class LinkedList {
 
   public String get(int index) {
     Node it = head;
-    while (index > 0 && it != null) {
+    var i = index;
+    while (i > 0 && it != null) {
       it = it.next;
-      index--;
+      i--;
     }
 
     if (it == null) {

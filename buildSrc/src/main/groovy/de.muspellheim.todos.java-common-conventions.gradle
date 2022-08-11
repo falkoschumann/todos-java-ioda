@@ -5,6 +5,7 @@
 plugins {
   // Apply the java Plugin to add support for Java.
   id 'java'
+  id 'pmd'
   id 'com.diffplug.spotless'
 }
 
@@ -26,6 +27,13 @@ dependencies {
 tasks.named('test') {
   // Use JUnit Platform for unit tests.
   useJUnitPlatform()
+}
+
+pmd {
+  consoleOutput = true
+  toolVersion = "6.48.0"
+  rulesMinimumPriority = 2
+  ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
 }
 
 spotless {
