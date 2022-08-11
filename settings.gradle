@@ -1,2 +1,2 @@
 rootProject.name = 'todos'
-include('app', 'list', 'utilities')
+include('todos-contract', 'todos-backend', 'todos-frontend', 'todos')
