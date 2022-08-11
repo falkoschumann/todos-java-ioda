@@ -5,6 +5,7 @@
 plugins {
   // Apply the java Plugin to add support for Java.
   id 'java'
+  id 'jacoco'
   id 'pmd'
   id 'com.diffplug.spotless'
 }
@@ -27,6 +28,18 @@ dependencies {
 tasks.named('test') {
   // Use JUnit Platform for unit tests.
   useJUnitPlatform()
+}
+
+test {
+  finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacoco {
+  toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+  dependsOn test // tests are required to run before generating the report
 }
 
 pmd {
