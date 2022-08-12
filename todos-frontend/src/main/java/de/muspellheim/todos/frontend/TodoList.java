@@ -17,5 +17,6 @@ class TodoList extends Box {
       add(new JLabel(t.title()));
     }
     add(Box.createVerticalGlue());
+    revalidate();
   }
 }
