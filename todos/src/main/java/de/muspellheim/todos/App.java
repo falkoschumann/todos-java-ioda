@@ -1,8 +1,8 @@
 package de.muspellheim.todos;
 
 import de.muspellheim.todos.backend.adapters.MemoryTodosRepository;
-import de.muspellheim.todos.backend.messagehandlers.AddTodoCommandHandlerImpl;
-import de.muspellheim.todos.backend.messagehandlers.SelectTodosQueryHandlerImpl;
+import de.muspellheim.todos.backend.messagehandlers.AddTodoCommandHandler;
+import de.muspellheim.todos.backend.messagehandlers.SelectTodosQueryHandler;
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.frontend.TodosController;
@@ -14,8 +14,8 @@ public class App {
     var todosRepository = new MemoryTodosRepository();
     todosRepository.store(
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
-    var addTodoCommandHandler = new AddTodoCommandHandlerImpl(todosRepository);
-    var selectTodosQueryHandler = new SelectTodosQueryHandlerImpl(todosRepository);
+    var addTodoCommandHandler = new AddTodoCommandHandler(todosRepository);
+    var selectTodosQueryHandler = new SelectTodosQueryHandler(todosRepository);
     var todosController = new TodosController();
 
     // Bind

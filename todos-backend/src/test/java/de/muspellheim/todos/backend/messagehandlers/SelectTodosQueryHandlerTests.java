@@ -9,11 +9,11 @@ import de.muspellheim.todos.contract.messages.SelectTodosQueryResult;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class SelectTodosTests {
+public class SelectTodosQueryHandlerTests {
   @Test
   void returnsAllTodos() {
     var todosRepository = new MemoryTodosRepository();
-    var selectTodos = new SelectTodosQueryHandlerImpl(todosRepository);
+    var selectTodos = new SelectTodosQueryHandler(todosRepository);
     var givenTodos =
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false));
     todosRepository.store(givenTodos);

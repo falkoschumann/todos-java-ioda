@@ -10,7 +10,7 @@ import de.muspellheim.todos.contract.messages.Success;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class AddTodoTests {
+public class AddTodoCommandHandlerTests {
   @Test
   void savesNewTodos() {
     testAddTodo(
@@ -44,7 +44,7 @@ public class AddTodoTests {
       CommandStatus thenStatus,
       List<Todo> thenTodos) {
     var todosRepository = new MemoryTodosRepository();
-    var addTodo = new AddTodoCommandHandlerImpl(todosRepository);
+    var addTodo = new AddTodoCommandHandler(todosRepository);
     todosRepository.store(givenTodos);
 
     var status = addTodo.handle(whenCommand);

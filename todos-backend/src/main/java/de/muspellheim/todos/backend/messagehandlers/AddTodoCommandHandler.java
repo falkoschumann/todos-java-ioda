@@ -2,21 +2,19 @@ package de.muspellheim.todos.backend.messagehandlers;
 
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.AddTodosCommand;
-import de.muspellheim.todos.contract.messages.AddTodosCommandHandler;
 import de.muspellheim.todos.contract.messages.CommandStatus;
 import de.muspellheim.todos.contract.messages.Success;
 import de.muspellheim.todos.contract.ports.TodosRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddTodoCommandHandlerImpl implements AddTodosCommandHandler {
+public class AddTodoCommandHandler {
   private final TodosRepository todosRepository;
 
-  public AddTodoCommandHandlerImpl(TodosRepository todosRepository) {
+  public AddTodoCommandHandler(TodosRepository todosRepository) {
     this.todosRepository = todosRepository;
   }
 
-  @Override
   public CommandStatus handle(AddTodosCommand command) {
     var title = command.title().trim();
     if (title.isEmpty()) {
