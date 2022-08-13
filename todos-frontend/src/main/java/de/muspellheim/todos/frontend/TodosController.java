@@ -1,6 +1,6 @@
 package de.muspellheim.todos.frontend;
 
-import de.muspellheim.todos.contract.messages.AddTodosCommand;
+import de.muspellheim.todos.contract.messages.AddTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.contract.messages.SelectTodosQueryResult;
 import java.awt.BorderLayout;
@@ -14,7 +14,7 @@ public class TodosController {
   private final JFrame frame;
   private final TodoList todoList;
 
-  public Consumer<AddTodosCommand> onAddTodo;
+  public Consumer<AddTodoCommand> onAddTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 
   public TodosController() {
@@ -28,7 +28,7 @@ public class TodosController {
     frame.add(container);
 
     var header = new Header();
-    header.onAddTodo = t -> onAddTodo.accept(new AddTodosCommand(t));
+    header.onAddTodo = t -> onAddTodo.accept(new AddTodoCommand(t));
     container.add(header, BorderLayout.NORTH);
 
     todoList = new TodoList();

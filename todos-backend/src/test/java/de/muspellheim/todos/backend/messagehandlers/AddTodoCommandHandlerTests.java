@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.muspellheim.todos.backend.adapters.MemoryTodosRepository;
 import de.muspellheim.todos.contract.data.Todo;
-import de.muspellheim.todos.contract.messages.AddTodosCommand;
+import de.muspellheim.todos.contract.messages.AddTodoCommand;
 import de.muspellheim.todos.contract.messages.CommandStatus;
 import de.muspellheim.todos.contract.messages.Success;
 import java.util.List;
@@ -15,7 +15,7 @@ public class AddTodoCommandHandlerTests {
   void savesNewTodos() {
     testAddTodo(
         List.of(new Todo(1, "Taste JavaScript", true)),
-        new AddTodosCommand(("Buy Unicorn")),
+        new AddTodoCommand(("Buy Unicorn")),
         new Success(),
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
   }
@@ -24,7 +24,7 @@ public class AddTodoCommandHandlerTests {
   void savesTrimmedTitle() {
     testAddTodo(
         List.of(new Todo(1, "Taste JavaScript", true)),
-        new AddTodosCommand(("  Buy Unicorn   ")),
+        new AddTodoCommand(("  Buy Unicorn   ")),
         new Success(),
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
   }
@@ -33,14 +33,14 @@ public class AddTodoCommandHandlerTests {
   void doesNothingIfTitleIsEmpty() {
     testAddTodo(
         List.of(new Todo(1, "Taste JavaScript", true)),
-        new AddTodosCommand(("  ")),
+        new AddTodoCommand(("  ")),
         new Success(),
         List.of(new Todo(1, "Taste JavaScript", true)));
   }
 
   void testAddTodo(
       List<Todo> givenTodos,
-      AddTodosCommand whenCommand,
+      AddTodoCommand whenCommand,
       CommandStatus thenStatus,
       List<Todo> thenTodos) {
     var todosRepository = new MemoryTodosRepository();
