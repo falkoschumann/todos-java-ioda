@@ -25,7 +25,7 @@
 
 ### Complete Todo
 
-- [ ] Mark a todo in the list as completed or active.
+- [x] Mark a todo in the list as completed or active.
 - [ ] Mark all todos as completed or active.
 
 ### Remove Todo
@@ -40,7 +40,7 @@
 ### Commands
 
 - [x] Add todo (title)
-- [ ] Toggle todo (id)
+- [x] Toggle todo (id)
 - [ ] Toggle all (checked)
 - [ ] Destroy todo (id)
 - [ ] Clear completed

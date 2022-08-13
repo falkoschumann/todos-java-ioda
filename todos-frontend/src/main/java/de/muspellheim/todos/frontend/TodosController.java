@@ -3,6 +3,7 @@ package de.muspellheim.todos.frontend;
 import de.muspellheim.todos.contract.messages.AddTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.contract.messages.SelectTodosQueryResult;
+import de.muspellheim.todos.contract.messages.ToggleTodoCommand;
 import java.awt.BorderLayout;
 import java.util.function.Consumer;
 import javax.swing.JFrame;
@@ -15,13 +16,15 @@ public class TodosController {
   private final TodoList todoList;
 
   public Consumer<AddTodoCommand> onAddTodo;
+  public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 
   public TodosController() {
     frame = new JFrame("Todos");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setLocationByPlatform(true);
     frame.setSize(320, 640);
+    frame.setLocationByPlatform(true);
+    // frame.setLocationRelativeTo(null); // alternatively, center window
 
     var container = new JPanel();
     container.setLayout(new BorderLayout());
@@ -32,6 +35,7 @@ public class TodosController {
     container.add(header, BorderLayout.NORTH);
 
     todoList = new TodoList();
+    todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
   }
 
