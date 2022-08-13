@@ -15,7 +15,7 @@ public class AddTodoCommandHandlerTests {
   void savesNewTodos() {
     testAddTodo(
         List.of(new Todo(1, "Taste JavaScript", true)),
-        new AddTodoCommand(("Buy Unicorn")),
+        new AddTodoCommand("Buy Unicorn"),
         new Success(),
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
   }
@@ -24,7 +24,7 @@ public class AddTodoCommandHandlerTests {
   void savesTrimmedTitle() {
     testAddTodo(
         List.of(new Todo(1, "Taste JavaScript", true)),
-        new AddTodoCommand(("  Buy Unicorn   ")),
+        new AddTodoCommand("  Buy Unicorn   "),
         new Success(),
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
   }
@@ -33,7 +33,7 @@ public class AddTodoCommandHandlerTests {
   void doesNothingIfTitleIsEmpty() {
     testAddTodo(
         List.of(new Todo(1, "Taste JavaScript", true)),
-        new AddTodoCommand(("  ")),
+        new AddTodoCommand("  "),
         new Success(),
         List.of(new Todo(1, "Taste JavaScript", true)));
   }
