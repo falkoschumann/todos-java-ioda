@@ -7,6 +7,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 class TodoList extends Box {
+  Consumer<Integer> onDestroy;
   Consumer<Integer> onToggle;
 
   TodoList() {
@@ -16,11 +17,13 @@ class TodoList extends Box {
   void setTodos(List<Todo> todos) {
     removeAll();
     for (var t : todos) {
-      TodoItem item = new TodoItem(t);
+      var item = new TodoItem(t);
+      item.onDestroy = () -> onDestroy.accept(t.id());
       item.onToggle = () -> onToggle.accept(t.id());
       add(item);
     }
     add(Box.createVerticalGlue());
     revalidate();
+    repaint();
   }
 }

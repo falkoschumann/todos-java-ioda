@@ -1,6 +1,7 @@
 package de.muspellheim.todos.frontend;
 
 import de.muspellheim.todos.contract.messages.AddTodoCommand;
+import de.muspellheim.todos.contract.messages.DestroyTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.contract.messages.SelectTodosQueryResult;
 import de.muspellheim.todos.contract.messages.ToggleTodoCommand;
@@ -16,6 +17,7 @@ public class TodosController {
   private final TodoList todoList;
 
   public Consumer<AddTodoCommand> onAddTodo;
+  public Consumer<DestroyTodoCommand> onDestroyTodo;
   public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 
@@ -35,6 +37,7 @@ public class TodosController {
     container.add(header, BorderLayout.NORTH);
 
     todoList = new TodoList();
+    todoList.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
     todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
   }

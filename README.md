@@ -30,7 +30,7 @@
 
 ### Remove Todo
 
-- [ ] Remove a todo from the list.
+- [x] Remove a todo from the list.
 - [ ] Hover over todo shows the remove button.
 - [ ] Remove all completed todos.
 - [ ] If there are no completed todos, the remove completed button is hidden.
@@ -42,7 +42,7 @@
 - [x] Add todo (title)
 - [x] Toggle todo (id)
 - [ ] Toggle all (checked)
-- [ ] Destroy todo (id)
+- [x] Destroy todo (id)
 - [ ] Clear completed
 - [ ] Save todo (id, title)
 
