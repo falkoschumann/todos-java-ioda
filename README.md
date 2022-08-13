@@ -6,7 +6,8 @@
 
 - [x] Focus new todo text field on startup.
 - [ ] If there are no todos, only display text field for new todo.
-- [x] Remove spaces before and after text and only create todo if text is not empty.
+- [x] Remove spaces before and after text and only create todo if text is not
+  empty.
 
 ### Show Todos
 
@@ -18,8 +19,8 @@
 
 - [ ] Edit a todo in the list by double-clicking and focus text field.
 - [ ] When editing a todo, only show text box for editing.
-- [ ] Save the change with `Enter` or if you lose focus and cancel the change with
-  `Escape`.
+- [ ] Save the change with `Enter` or if you lose focus and cancel the change
+  with `Escape`.
 - [ ] Remove spaces before and after text and delete todo if text is empty.
 
 ### Complete Todo
@@ -27,12 +28,12 @@
 - [ ] Mark a todo in the list as completed or active.
 - [ ] Mark all todos as completed or active.
 
-### Delete Todo
+### Remove Todo
 
-- [ ] Delete a todo from the list.
-- [ ] Delete all completed todos.
-- [ ] If there are no completed todos, action delete completed todos is not
-  available.
+- [ ] Remove a todo from the list.
+- [ ] Hover over todo shows the remove button.
+- [ ] Remove all completed todos.
+- [ ] If there are no completed todos, the remove completed button is hidden.
 
 ## Messages
 
