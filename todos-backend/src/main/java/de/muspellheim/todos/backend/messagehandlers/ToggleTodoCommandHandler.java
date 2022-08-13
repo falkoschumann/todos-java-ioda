@@ -21,7 +21,7 @@ public class ToggleTodoCommandHandler {
     return new Success();
   }
 
-  private List<Todo> toggleTodo(List<Todo> todos, int id) {
+  private static List<Todo> toggleTodo(List<Todo> todos, int id) {
     return todos.stream()
         .map(
             t -> {

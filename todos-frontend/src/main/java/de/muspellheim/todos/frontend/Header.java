@@ -12,6 +12,7 @@ class Header extends Box {
     super(BoxLayout.Y_AXIS);
 
     JTextField newTodo = new JTextField();
+    // Swing has no placeholders, so we use a tooltip.
     newTodo.setToolTipText("What needs to be done?");
     newTodo.addActionListener(
         e -> {
