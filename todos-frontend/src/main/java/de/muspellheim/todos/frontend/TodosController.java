@@ -15,6 +15,7 @@ import javax.swing.WindowConstants;
 public class TodosController {
   private final JFrame frame;
   private final TodoList todoList;
+  private final Footer footer;
 
   public Consumer<AddTodoCommand> onAddTodo;
   public Consumer<DestroyTodoCommand> onDestroyTodo;
@@ -40,10 +41,15 @@ public class TodosController {
     todoList.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
     todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
+
+    footer = new Footer();
+    container.add(footer, BorderLayout.SOUTH);
   }
 
   public void display(SelectTodosQueryResult result) {
     todoList.setTodos(result.todos());
+    var n = result.todos().stream().filter(t -> !t.completed()).count();
+    footer.setActiveCount(n);
   }
 
   public void run() {
