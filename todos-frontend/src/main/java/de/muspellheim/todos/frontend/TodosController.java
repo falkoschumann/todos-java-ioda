@@ -1,5 +1,6 @@
 package de.muspellheim.todos.frontend;
 
+import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.AddTodoCommand;
 import de.muspellheim.todos.contract.messages.DestroyTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
@@ -13,21 +14,24 @@ import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 public class TodosController {
-  private final JFrame frame;
-  private final TodoList todoList;
-  private final Footer footer;
-
   public Consumer<AddTodoCommand> onAddTodo;
   public Consumer<DestroyTodoCommand> onDestroyTodo;
   public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
+
+  private final JFrame frame;
+  private final TodoList todoList;
+  private final Footer footer;
+
+  private SelectTodosQueryResult selectedTodos;
 
   public TodosController() {
     frame = new JFrame("Todos");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(320, 640);
     frame.setLocationByPlatform(true);
-    // frame.setLocationRelativeTo(null); // alternatively, center window
+    // alternatively, center window
+    // frame.setLocationRelativeTo(null);
 
     var container = new JPanel();
     container.setLayout(new BorderLayout());
@@ -43,13 +47,27 @@ public class TodosController {
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
 
     footer = new Footer();
+    footer.onFilterChanged = f -> updateTodoList();
     container.add(footer, BorderLayout.SOUTH);
   }
 
   public void display(SelectTodosQueryResult result) {
-    todoList.setTodos(result.todos());
-    var n = result.todos().stream().filter(t -> !t.completed()).count();
-    footer.setActiveCount(n);
+    selectedTodos = result;
+    updateTodoList();
+  }
+
+  private void updateTodoList() {
+    var activeTodos = selectedTodos.todos().stream().filter(t -> !t.completed()).toList();
+    var completedTodos = selectedTodos.todos().stream().filter(Todo::completed).toList();
+    var allTodos = selectedTodos.todos();
+    var todos =
+        switch (footer.getFilter()) {
+          case ACTIVE -> activeTodos;
+          case COMPLETED -> completedTodos;
+          default -> allTodos;
+        };
+    todoList.setTodos(todos);
+    footer.setActiveCount(activeTodos.size());
   }
 
   public void run() {

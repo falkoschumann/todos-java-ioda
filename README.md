@@ -1,5 +1,8 @@
 # Todos
 
+A simple app for managing todos, following the example of
+[TodoMVC](https://todomvc.com).
+
 ## User Stories
 
 ### Create Todo
@@ -12,7 +15,7 @@
 ### Show Todos
 
 - [x] Show all todos.
-- [ ] Show only active or completed todos.
+- [x] Show only active or completed todos.
 - [x] Display number of active todos.
 
 ### Edit Todo
