@@ -3,6 +3,7 @@ package de.muspellheim.todos.frontend;
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.AddTodoCommand;
 import de.muspellheim.todos.contract.messages.DestroyTodoCommand;
+import de.muspellheim.todos.contract.messages.SaveTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.contract.messages.SelectTodosQueryResult;
 import de.muspellheim.todos.contract.messages.ToggleTodoCommand;
@@ -16,6 +17,7 @@ import javax.swing.WindowConstants;
 public class TodosController {
   public Consumer<AddTodoCommand> onAddTodo;
   public Consumer<DestroyTodoCommand> onDestroyTodo;
+  public Consumer<SaveTodoCommand> onSaveTodo;
   public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 

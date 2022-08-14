@@ -24,7 +24,7 @@ A simple app for managing todos, following the example of
 - [ ] When editing a todo, only show text box for editing.
 - [ ] Save the change with `Enter` or if you lose focus and cancel the change
   with `Escape`.
-- [ ] Remove spaces before and after text and delete todo if text is empty.
+- [x] Remove spaces before and after text and delete todo if text is empty.
 
 ### Complete Todo
 
