@@ -2,6 +2,7 @@ package de.muspellheim.todos;
 
 import de.muspellheim.todos.backend.adapters.MemoryTodosRepository;
 import de.muspellheim.todos.backend.messagehandlers.AddTodoCommandHandler;
+import de.muspellheim.todos.backend.messagehandlers.ClearCompletedCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.DestroyTodoCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.SaveTodoCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.SelectTodosQueryHandler;
@@ -18,6 +19,7 @@ public class App {
     todosRepository.store(
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
     var addTodoCommandHandler = new AddTodoCommandHandler(todosRepository);
+    var clearCompletedCommandHandler = new ClearCompletedCommandHandler(todosRepository);
     var destroyTodoCommandHandler = new DestroyTodoCommandHandler(todosRepository);
     var saveTodoCommandHandler = new SaveTodoCommandHandler(todosRepository);
     var toggleTodoCommandHandler = new ToggleTodoCommandHandler(todosRepository);
@@ -28,6 +30,12 @@ public class App {
     todosController.onAddTodo =
         c -> {
           addTodoCommandHandler.handle(c);
+          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(r);
+        };
+    todosController.onClearCompleted =
+        c -> {
+          clearCompletedCommandHandler.handle(c);
           var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(r);
         };

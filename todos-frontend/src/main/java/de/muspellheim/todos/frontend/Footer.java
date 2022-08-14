@@ -3,11 +3,13 @@ package de.muspellheim.todos.frontend;
 import java.awt.GridLayout;
 import java.util.function.Consumer;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 class Footer extends JPanel {
+  Runnable onClearCompleted;
   Consumer<Filter> onFilterChanged;
 
   private final JLabel activeCount;
@@ -28,6 +30,10 @@ class Footer extends JPanel {
     }
     filter.addActionListener(e -> onFilterChanged.accept(getFilter()));
     add(filter);
+
+    var clearCompleted = new JButton("Clear completed");
+    clearCompleted.addActionListener(e -> onClearCompleted.run());
+    add(clearCompleted);
   }
 
   Filter getFilter() {

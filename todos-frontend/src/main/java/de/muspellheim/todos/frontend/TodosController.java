@@ -2,6 +2,7 @@ package de.muspellheim.todos.frontend;
 
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.AddTodoCommand;
+import de.muspellheim.todos.contract.messages.ClearCompletedCommand;
 import de.muspellheim.todos.contract.messages.DestroyTodoCommand;
 import de.muspellheim.todos.contract.messages.SaveTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
@@ -16,6 +17,7 @@ import javax.swing.WindowConstants;
 
 public class TodosController {
   public Consumer<AddTodoCommand> onAddTodo;
+  public Consumer<ClearCompletedCommand> onClearCompleted;
   public Consumer<DestroyTodoCommand> onDestroyTodo;
   public Consumer<SaveTodoCommand> onSaveTodo;
   public Consumer<ToggleTodoCommand> onToggleTodo;
@@ -30,7 +32,7 @@ public class TodosController {
   public TodosController() {
     frame = new JFrame("Todos");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setSize(320, 640);
+    frame.setSize(480, 640);
     frame.setLocationByPlatform(true);
     // alternatively, center window
     // frame.setLocationRelativeTo(null);
@@ -50,6 +52,7 @@ public class TodosController {
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
 
     footer = new Footer();
+    footer.onClearCompleted = () -> onClearCompleted.accept(new ClearCompletedCommand());
     footer.onFilterChanged = f -> updateTodoList();
     container.add(footer, BorderLayout.SOUTH);
   }
