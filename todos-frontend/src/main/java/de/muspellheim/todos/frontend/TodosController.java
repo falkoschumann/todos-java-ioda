@@ -74,6 +74,7 @@ public class TodosController {
         };
     todoList.setTodos(todos);
     footer.setActiveCount(activeTodos.size());
+    footer.setCompletedCount(completedTodos.size());
   }
 
   public void run() {

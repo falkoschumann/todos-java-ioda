@@ -14,9 +14,10 @@ class Footer extends JPanel {
 
   private final JLabel activeCount;
   private final JComboBox<Filter> filter;
+  private final JButton clearCompleted;
 
   Footer() {
-    setLayout(new GridLayout(0, 3));
+    setLayout(new GridLayout());
 
     activeCount = new JLabel();
     setActiveCount(0);
@@ -31,7 +32,7 @@ class Footer extends JPanel {
     filter.addActionListener(e -> onFilterChanged.accept(getFilter()));
     add(filter);
 
-    var clearCompleted = new JButton("Clear completed");
+    clearCompleted = new JButton("Clear completed");
     clearCompleted.addActionListener(e -> onClearCompleted.run());
     add(clearCompleted);
   }
@@ -43,5 +44,9 @@ class Footer extends JPanel {
   void setActiveCount(long c) {
     activeCount.setText(
         "<html><strong>" + c + "</strong> " + Strings.pluralize(c, "item") + " left</html>");
+  }
+
+  void setCompletedCount(long c) {
+    clearCompleted.setVisible(c > 0);
   }
 }

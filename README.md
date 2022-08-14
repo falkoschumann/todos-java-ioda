@@ -36,7 +36,7 @@ A simple app for managing todos, following the example of
 - [x] Remove a todo from the list.
 - [ ] Hover over todo shows the remove button.
 - [x] Remove all completed todos.
-- [ ] If there are no completed todos, the remove completed button is hidden.
+- [x] If there are no completed todos, the remove completed button is hidden.
 
 ## Messages
 
