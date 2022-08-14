@@ -13,13 +13,13 @@ public class DestroyTodoCommandHandlerTests {
   @Test
   void destroysATodo() {
     var todosRepository = new MemoryTodosRepository();
-    var addTodo = new DestroyTodoCommandHandler(todosRepository);
+    var destroyTodo = new DestroyTodoCommandHandler(todosRepository);
     var givenTodos =
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false));
     todosRepository.store(givenTodos);
 
     var whenCommand = new DestroyTodoCommand(2);
-    var status = addTodo.handle(whenCommand);
+    var status = destroyTodo.handle(whenCommand);
 
     var thenStatus = new Success();
     assertEquals(thenStatus, status);

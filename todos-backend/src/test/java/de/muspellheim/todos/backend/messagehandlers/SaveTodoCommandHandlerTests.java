@@ -44,10 +44,10 @@ public class SaveTodoCommandHandlerTests {
       CommandStatus thenStatus,
       List<Todo> thenTodos) {
     var todosRepository = new MemoryTodosRepository();
-    var addTodo = new SaveTodoCommandHandler(todosRepository);
+    var saveTodo = new SaveTodoCommandHandler(todosRepository);
     todosRepository.store(givenTodos);
 
-    var status = addTodo.handle(whenCommand);
+    var status = saveTodo.handle(whenCommand);
 
     assertEquals(thenStatus, status);
     assertEquals(todosRepository.load(), thenTodos);

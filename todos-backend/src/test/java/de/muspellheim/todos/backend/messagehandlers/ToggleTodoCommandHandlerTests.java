@@ -35,10 +35,10 @@ public class ToggleTodoCommandHandlerTests {
       CommandStatus thenStatus,
       List<Todo> thenTodos) {
     var todosRepository = new MemoryTodosRepository();
-    var addTodo = new ToggleTodoCommandHandler(todosRepository);
+    var toggleTodo = new ToggleTodoCommandHandler(todosRepository);
     todosRepository.store(givenTodos);
 
-    var status = addTodo.handle(whenCommand);
+    var status = toggleTodo.handle(whenCommand);
 
     assertEquals(thenStatus, status);
     assertEquals(todosRepository.load(), thenTodos);
