@@ -14,7 +14,10 @@ import java.util.List;
 
 public class App {
   public static void main(String[] args) {
+    //
     // Build
+    //
+    // TODO replace memory repository with file based
     var todosRepository = new MemoryTodosRepository();
     todosRepository.store(
         List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
@@ -26,7 +29,9 @@ public class App {
     var selectTodosQueryHandler = new SelectTodosQueryHandler(todosRepository);
     var todosController = new TodosController();
 
+    //
     // Bind
+    //
     todosController.onAddTodo =
         c -> {
           addTodoCommandHandler.handle(c);

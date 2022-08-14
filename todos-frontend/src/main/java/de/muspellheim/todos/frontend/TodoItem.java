@@ -24,15 +24,15 @@ class TodoItem extends JPanel {
   Runnable onToggle;
 
   private final CardLayout layout;
-  private final JComponent view;
   private final JComponent edit;
 
   TodoItem(Todo todo) {
+    setMaximumSize(new Dimension(Short.MAX_VALUE, 0));
     setOpaque(false);
     layout = new CardLayout();
     setLayout(layout);
 
-    view = createView(todo);
+    var view = createView(todo);
     add(view, "VIEW");
 
     edit = createEditor(todo);
@@ -40,16 +40,35 @@ class TodoItem extends JPanel {
   }
 
   private JComponent createView(Todo todo) {
-    var box = Box.createHorizontalBox();
-    box.setAlignmentX(Component.LEFT_ALIGNMENT);
-    box.setMaximumSize(new Dimension(Short.MAX_VALUE, 0));
+    //
+    // Build
+    //
+    var container = Box.createHorizontalBox();
+    container.setAlignmentX(Component.LEFT_ALIGNMENT);
+    container.setPreferredSize(new Dimension(0, 32));
 
     var completed = new JCheckBox("", todo.completed());
-    completed.addActionListener(e -> onToggle.run());
-    box.add(completed);
+    container.add(completed);
 
-    var title = new JLabel(todo.title());
-    setMaximumSize(new Dimension(Short.MAX_VALUE, 0));
+    var text = todo.title();
+    if (todo.completed()) {
+      text = "<html><strike>" + text + "</strike><html>";
+    }
+    var title = new JLabel(text);
+    title.setMinimumSize(new Dimension(0, 32));
+    title.setMaximumSize(new Dimension(Short.MAX_VALUE, 32));
+    container.add(title);
+
+    var url = TodoItem.class.getResource("/images/destroy.png");
+    assert url != null;
+    var destroy = new JButton(new ImageIcon(url));
+    destroy.setVisible(false);
+    container.add(destroy);
+
+    //
+    // Bind
+    //
+    completed.addActionListener(e -> onToggle.run());
     title.addMouseListener(
         new MouseAdapter() {
           @Override
@@ -60,17 +79,33 @@ class TodoItem extends JPanel {
             }
           }
         });
-    box.add(title);
+    title.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseEntered(MouseEvent e) {
+            destroy.setVisible(true);
+          }
 
-    box.add(Box.createHorizontalGlue());
-
-    var url = TodoItem.class.getResource("/images/destroy.png");
-    assert url != null;
-    var destroy = new JButton(new ImageIcon(url));
+          @Override
+          public void mouseExited(MouseEvent e) {
+            destroy.setVisible(false);
+          }
+        });
     destroy.addActionListener(e -> onDestroy.run());
-    box.add(destroy);
+    destroy.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseEntered(MouseEvent e) {
+            destroy.setVisible(true);
+          }
 
-    return box;
+          @Override
+          public void mouseExited(MouseEvent e) {
+            destroy.setVisible(false);
+          }
+        });
+
+    return container;
   }
 
   private JComponent createEditor(Todo todo) {

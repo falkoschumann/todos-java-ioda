@@ -17,6 +17,9 @@ class Footer extends JPanel {
   private final JButton clearCompleted;
 
   Footer() {
+    //
+    // Build
+    //
     setLayout(new GridLayout());
 
     activeCount = new JLabel();
@@ -29,12 +32,16 @@ class Footer extends JPanel {
     for (var f : Filter.values()) {
       filter.addItem(f);
     }
-    filter.addActionListener(e -> onFilterChanged.accept(getFilter()));
     add(filter);
 
     clearCompleted = new JButton("Clear completed");
     clearCompleted.addActionListener(e -> onClearCompleted.run());
     add(clearCompleted);
+
+    //
+    // Bind
+    //
+    filter.addActionListener(e -> onFilterChanged.accept(getFilter()));
   }
 
   Filter getFilter() {

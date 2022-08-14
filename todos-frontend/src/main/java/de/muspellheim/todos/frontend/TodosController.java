@@ -30,6 +30,9 @@ public class TodosController {
   private SelectTodosQueryResult selectedTodos;
 
   public TodosController() {
+    //
+    // Build
+    //
     frame = new JFrame("Todos");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(480, 640);
@@ -42,19 +45,23 @@ public class TodosController {
     frame.add(container);
 
     var header = new Header();
-    header.onAddTodo = t -> onAddTodo.accept(new AddTodoCommand(t));
     container.add(header, BorderLayout.NORTH);
 
     todoList = new TodoList();
-    todoList.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
-    todoList.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
-    todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
 
     footer = new Footer();
+    container.add(footer, BorderLayout.SOUTH);
+
+    //
+    // Bind
+    //
+    header.onAddTodo = t -> onAddTodo.accept(new AddTodoCommand(t));
+    todoList.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
+    todoList.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
+    todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     footer.onClearCompleted = () -> onClearCompleted.accept(new ClearCompletedCommand());
     footer.onFilterChanged = f -> updateTodoList();
-    container.add(footer, BorderLayout.SOUTH);
   }
 
   public void display(SelectTodosQueryResult result) {

@@ -9,20 +9,28 @@ class Header extends Box {
   Consumer<String> onAddTodo;
 
   Header() {
+    //
+    // Build
+    //
     super(BoxLayout.Y_AXIS);
 
     JTextField newTodo = new JTextField();
     // Swing has no placeholders, so we use a tooltip.
     newTodo.setToolTipText("What needs to be done?");
+    add(newTodo);
+
+    //
+    // Bind
+    //
     newTodo.addActionListener(
         e -> {
           var title = newTodo.getText().trim();
           if (title.isEmpty()) {
             return;
           }
+
           onAddTodo.accept(title);
           newTodo.setText("");
         });
-    add(newTodo);
   }
 }

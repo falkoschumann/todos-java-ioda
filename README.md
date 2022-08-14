@@ -29,12 +29,13 @@ A simple app for managing todos, following the example of
 ### Complete Todo
 
 - [x] Mark a todo in the list as completed or active.
+- [x] Strikethrough out a completed todo.
 - [ ] Mark all todos as completed or active.
 
 ### Remove Todo
 
 - [x] Remove a todo from the list.
-- [ ] Hover over todo shows the remove button.
+- [x] Hover over todo shows the remove button.
 - [x] Remove all completed todos.
 - [x] If there are no completed todos, the remove completed button is hidden.
 
