@@ -45,6 +45,7 @@ public class TodosController {
 
     todoList = new TodoList();
     todoList.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
+    todoList.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
     todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     container.add(new JScrollPane(todoList), BorderLayout.CENTER);
 

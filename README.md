@@ -20,9 +20,9 @@ A simple app for managing todos, following the example of
 
 ### Edit Todo
 
-- [ ] Edit a todo in the list by double-clicking and focus text field.
-- [ ] When editing a todo, only show text box for editing.
-- [ ] Save the change with `Enter` or if you lose focus and cancel the change
+- [x] Edit a todo in the list by double-clicking and focus text field.
+- [x] When editing a todo, only show text box for editing.
+- [x] Save the change with `Enter` or if you lose focus and cancel the change
   with `Escape`.
 - [x] Remove spaces before and after text and delete todo if text is empty.
 
@@ -47,7 +47,7 @@ A simple app for managing todos, following the example of
 - [ ] Toggle all (checked)
 - [x] Destroy todo (id)
 - [ ] Clear completed
-- [ ] Save todo (id, title)
+- [x] Save todo (id, title)
 
 ### Queries
 
