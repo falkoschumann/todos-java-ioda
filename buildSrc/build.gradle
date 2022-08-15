@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
   implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.9.1'
+  implementation 'io.freefair.gradle:lombok-plugin:6.5.0.3'
 }
 
 repositories {

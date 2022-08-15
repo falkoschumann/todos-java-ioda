@@ -12,6 +12,7 @@ import de.muspellheim.todos.contract.messages.ToggleTodoCommand;
 import java.awt.BorderLayout;
 import java.util.function.Consumer;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -70,6 +71,10 @@ public class TodosController {
   public void display(SelectTodosQueryResult result) {
     selectedTodos = result;
     update();
+  }
+
+  public void showError(String message) {
+    JOptionPane.showMessageDialog(frame, message, "Unexpected error", JOptionPane.ERROR_MESSAGE);
   }
 
   private void update() {

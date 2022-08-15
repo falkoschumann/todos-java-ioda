@@ -1,6 +1,6 @@
 package de.muspellheim.todos;
 
-import de.muspellheim.todos.backend.adapters.MemoryTodosRepository;
+import de.muspellheim.todos.backend.adapters.JsonTodosRepository;
 import de.muspellheim.todos.backend.messagehandlers.AddTodoCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.ClearCompletedCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.DestroyTodoCommandHandler;
@@ -8,20 +8,17 @@ import de.muspellheim.todos.backend.messagehandlers.SaveTodoCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.SelectTodosQueryHandler;
 import de.muspellheim.todos.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.ToggleTodoCommandHandler;
-import de.muspellheim.todos.contract.data.Todo;
+import de.muspellheim.todos.contract.messages.Failure;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.frontend.TodosController;
-import java.util.List;
+import java.nio.file.Paths;
 
 public class App {
   public static void main(String[] args) {
     //
     // Build
     //
-    // TODO replace memory repository with file based
-    var todosRepository = new MemoryTodosRepository();
-    todosRepository.store(
-        List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
+    var todosRepository = new JsonTodosRepository(Paths.get("todos.json"));
     var addTodoCommandHandler = new AddTodoCommandHandler(todosRepository);
     var clearCompletedCommandHandler = new ClearCompletedCommandHandler(todosRepository);
     var destroyTodoCommandHandler = new DestroyTodoCommandHandler(todosRepository);
@@ -35,45 +32,75 @@ public class App {
     // Bind
     //
     todosController.onAddTodo =
-        c -> {
-          addTodoCommandHandler.handle(c);
-          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
-          todosController.display(r);
+        command -> {
+          var status = addTodoCommandHandler.handle(command);
+          if (status instanceof Failure) {
+            todosController.showError(((Failure) status).errorMessage());
+            return;
+          }
+
+          var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(result);
         };
     todosController.onClearCompleted =
-        c -> {
-          clearCompletedCommandHandler.handle(c);
-          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
-          todosController.display(r);
+        command -> {
+          var status = clearCompletedCommandHandler.handle(command);
+          if (status instanceof Failure) {
+            todosController.showError(((Failure) status).errorMessage());
+            return;
+          }
+
+          var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(result);
         };
     todosController.onDestroyTodo =
-        c -> {
-          destroyTodoCommandHandler.handle(c);
-          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
-          todosController.display(r);
+        command -> {
+          var status = destroyTodoCommandHandler.handle(command);
+          if (status instanceof Failure) {
+            todosController.showError(((Failure) status).errorMessage());
+            return;
+          }
+
+          var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(result);
         };
     todosController.onSaveTodo =
-        c -> {
-          saveTodoCommandHandler.handle(c);
-          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
-          todosController.display(r);
+        command -> {
+          var status = saveTodoCommandHandler.handle(command);
+          if (status instanceof Failure) {
+            todosController.showError(((Failure) status).errorMessage());
+            return;
+          }
+
+          var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(result);
         };
     todosController.onToggleAll =
-        c -> {
-          toggleAllCommandHandler.handle(c);
-          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
-          todosController.display(r);
+        command -> {
+          var status = toggleAllCommandHandler.handle(command);
+          if (status instanceof Failure) {
+            todosController.showError(((Failure) status).errorMessage());
+            return;
+          }
+
+          var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(result);
         };
     todosController.onToggleTodo =
-        c -> {
-          toggleTodoCommandHandler.handle(c);
-          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
-          todosController.display(r);
+        command -> {
+          var status = toggleTodoCommandHandler.handle(command);
+          if (status instanceof Failure) {
+            todosController.showError(((Failure) status).errorMessage());
+            return;
+          }
+
+          var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(result);
         };
     todosController.onSelectTodos =
-        q -> {
-          var r = selectTodosQueryHandler.handle(q);
-          todosController.display(r);
+        query -> {
+          var result = selectTodosQueryHandler.handle(query);
+          todosController.display(result);
         };
 
     // Run
