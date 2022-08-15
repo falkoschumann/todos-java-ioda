@@ -7,6 +7,7 @@ import de.muspellheim.todos.contract.messages.DestroyTodoCommand;
 import de.muspellheim.todos.contract.messages.SaveTodoCommand;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
 import de.muspellheim.todos.contract.messages.SelectTodosQueryResult;
+import de.muspellheim.todos.contract.messages.ToggleAllCommand;
 import de.muspellheim.todos.contract.messages.ToggleTodoCommand;
 import java.awt.BorderLayout;
 import java.util.function.Consumer;
@@ -20,10 +21,12 @@ public class TodosController {
   public Consumer<ClearCompletedCommand> onClearCompleted;
   public Consumer<DestroyTodoCommand> onDestroyTodo;
   public Consumer<SaveTodoCommand> onSaveTodo;
+  public Consumer<ToggleAllCommand> onToggleAll;
   public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 
   private final JFrame frame;
+  private final Header header;
   private final TodoList todoList;
   private final Footer footer;
 
@@ -44,7 +47,7 @@ public class TodosController {
     container.setLayout(new BorderLayout());
     frame.add(container);
 
-    var header = new Header();
+    header = new Header();
     container.add(header, BorderLayout.NORTH);
 
     todoList = new TodoList();
@@ -57,19 +60,20 @@ public class TodosController {
     // Bind
     //
     header.onAddTodo = t -> onAddTodo.accept(new AddTodoCommand(t));
+    header.onToggleAll = c -> onToggleAll.accept(new ToggleAllCommand(c));
     todoList.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
     todoList.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
     todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     footer.onClearCompleted = () -> onClearCompleted.accept(new ClearCompletedCommand());
-    footer.onFilterChanged = f -> updateTodoList();
+    footer.onFilterChanged = f -> update();
   }
 
   public void display(SelectTodosQueryResult result) {
     selectedTodos = result;
-    updateTodoList();
+    update();
   }
 
-  private void updateTodoList() {
+  private void update() {
     var activeTodos = selectedTodos.todos().stream().filter(t -> !t.completed()).toList();
     var completedTodos = selectedTodos.todos().stream().filter(Todo::completed).toList();
     var allTodos = selectedTodos.todos();
@@ -79,6 +83,7 @@ public class TodosController {
           case COMPLETED -> completedTodos;
           default -> allTodos;
         };
+    header.setActiveCount(activeTodos.size());
     todoList.setTodos(todos);
     footer.setActiveCount(activeTodos.size());
     footer.setCompletedCount(completedTodos.size());
@@ -86,6 +91,7 @@ public class TodosController {
 
   public void run() {
     frame.setVisible(true);
+    header.requestFocus();
     onSelectTodos.accept(new SelectTodosQuery());
   }
 }

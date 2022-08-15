@@ -6,6 +6,7 @@ import de.muspellheim.todos.backend.messagehandlers.ClearCompletedCommandHandler
 import de.muspellheim.todos.backend.messagehandlers.DestroyTodoCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.SaveTodoCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.SelectTodosQueryHandler;
+import de.muspellheim.todos.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.ToggleTodoCommandHandler;
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
@@ -25,6 +26,7 @@ public class App {
     var clearCompletedCommandHandler = new ClearCompletedCommandHandler(todosRepository);
     var destroyTodoCommandHandler = new DestroyTodoCommandHandler(todosRepository);
     var saveTodoCommandHandler = new SaveTodoCommandHandler(todosRepository);
+    var toggleAllCommandHandler = new ToggleAllCommandHandler(todosRepository);
     var toggleTodoCommandHandler = new ToggleTodoCommandHandler(todosRepository);
     var selectTodosQueryHandler = new SelectTodosQueryHandler(todosRepository);
     var todosController = new TodosController();
@@ -53,6 +55,12 @@ public class App {
     todosController.onSaveTodo =
         c -> {
           saveTodoCommandHandler.handle(c);
+          var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
+          todosController.display(r);
+        };
+    todosController.onToggleAll =
+        c -> {
+          toggleAllCommandHandler.handle(c);
           var r = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(r);
         };

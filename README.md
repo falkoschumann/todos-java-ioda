@@ -30,7 +30,7 @@ A simple app for managing todos, following the example of
 
 - [x] Mark a todo in the list as completed or active.
 - [x] Strikethrough out a completed todo.
-- [ ] Mark all todos as completed or active.
+- [x] Mark all todos as completed or active.
 
 ### Remove Todo
 
@@ -45,7 +45,7 @@ A simple app for managing todos, following the example of
 
 - [x] Add todo (title)
 - [x] Toggle todo (id)
-- [ ] Toggle all (checked)
+- [x] Toggle all (checked)
 - [x] Destroy todo (id)
 - [x] Clear completed
 - [x] Save todo (id, title)
