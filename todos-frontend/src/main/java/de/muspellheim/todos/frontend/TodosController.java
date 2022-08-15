@@ -13,7 +13,6 @@ import java.awt.BorderLayout;
 import java.util.function.Consumer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 public class TodosController {
@@ -51,7 +50,7 @@ public class TodosController {
     container.add(header, BorderLayout.NORTH);
 
     todoList = new TodoList();
-    container.add(new JScrollPane(todoList), BorderLayout.CENTER);
+    container.add(todoList, BorderLayout.CENTER);
 
     footer = new Footer();
     container.add(footer, BorderLayout.SOUTH);
@@ -83,8 +82,11 @@ public class TodosController {
           case COMPLETED -> completedTodos;
           default -> allTodos;
         };
+    header.setAllTodosCount(allTodos.size());
     header.setActiveCount(activeTodos.size());
+    todoList.setVisible(!allTodos.isEmpty());
     todoList.setTodos(todos);
+    footer.setVisible(!allTodos.isEmpty());
     footer.setActiveCount(activeTodos.size());
     footer.setCompletedCount(completedTodos.size());
   }

@@ -46,8 +46,12 @@ class Header extends Box {
         });
   }
 
-  public void setActiveCount(int activeCount) {
-    toggleAll.setSelected(activeCount == 0);
+  void setAllTodosCount(int c) {
+    toggleAll.setVisible(c > 0);
+  }
+
+  void setActiveCount(int c) {
+    toggleAll.setSelected(c == 0);
   }
 
   @Override

@@ -8,7 +8,7 @@ A simple app for managing todos, following the example of
 ### Create Todo
 
 - [x] Focus new todo text field on startup.
-- [ ] If there are no todos, only display text field for new todo.
+- [x] If there are no todos, only display text field for new todo.
 - [x] Remove spaces before and after text and only create todo if text is not
   empty.
 

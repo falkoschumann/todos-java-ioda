@@ -5,28 +5,31 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
 
-class TodoList extends Box {
+class TodoList extends JScrollPane {
   Consumer<Integer> onDestroy;
   BiConsumer<Integer, String> onSave;
   Consumer<Integer> onToggle;
 
+  private final Box view;
+
   TodoList() {
-    super(BoxLayout.Y_AXIS);
+    view = Box.createVerticalBox();
+    setViewportView(view);
   }
 
   void setTodos(List<Todo> todos) {
-    removeAll();
+    view.removeAll();
     for (var t : todos) {
       var item = new TodoItem(t);
       item.onDestroy = () -> onDestroy.accept(t.id());
       item.onSave = (title) -> onSave.accept(t.id(), title);
       item.onToggle = () -> onToggle.accept(t.id());
-      add(item);
+      view.add(item);
     }
-    add(Box.createVerticalGlue());
-    revalidate();
-    repaint();
+    view.add(Box.createVerticalGlue());
+    view.revalidate();
+    view.repaint();
   }
 }
