@@ -45,7 +45,7 @@ class TodoItem extends JPanel {
     //
     var container = Box.createHorizontalBox();
     container.setAlignmentX(Component.LEFT_ALIGNMENT);
-    container.setPreferredSize(new Dimension(0, 32));
+    container.setPreferredSize(new Dimension(0, 28));
 
     var completed = new JCheckBox("", todo.completed());
     container.add(completed);
@@ -55,8 +55,8 @@ class TodoItem extends JPanel {
       text = "<html><strike>" + text + "</strike><html>";
     }
     var title = new JLabel(text);
-    title.setMinimumSize(new Dimension(0, 32));
-    title.setMaximumSize(new Dimension(Short.MAX_VALUE, 32));
+    title.setMinimumSize(new Dimension(0, 28));
+    title.setMaximumSize(new Dimension(Short.MAX_VALUE, 28));
     container.add(title);
 
     var url = TodoItem.class.getResource("/images/destroy.png");

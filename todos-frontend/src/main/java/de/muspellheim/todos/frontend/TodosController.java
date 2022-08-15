@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 public class TodosController {
@@ -32,13 +33,21 @@ public class TodosController {
 
   private SelectTodosQueryResult selectedTodos;
 
+  static {
+    try {
+      var className = UIManager.getSystemLookAndFeelClassName();
+      UIManager.setLookAndFeel(className);
+    } catch (Exception ignore) {
+    }
+  }
+
   public TodosController() {
     //
     // Build
     //
     frame = new JFrame("Todos");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setSize(480, 640);
+    frame.setSize(400, 600);
     frame.setLocationByPlatform(true);
     // alternatively, center window
     // frame.setLocationRelativeTo(null);

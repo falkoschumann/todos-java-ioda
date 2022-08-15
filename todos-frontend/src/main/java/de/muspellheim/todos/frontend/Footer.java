@@ -1,6 +1,7 @@
 package de.muspellheim.todos.frontend;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.function.Consumer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,7 +21,8 @@ class Footer extends JPanel {
     //
     // Build
     //
-    setLayout(new GridLayout());
+    GridBagLayout layout = new GridBagLayout();
+    setLayout(layout);
 
     activeCount = new JLabel();
     setActiveCount(0);
@@ -32,16 +34,19 @@ class Footer extends JPanel {
     for (var f : Filter.values()) {
       filter.addItem(f);
     }
+    var constraint = new GridBagConstraints();
+    constraint.weightx = 1.0;
+    layout.setConstraints(filter, constraint);
     add(filter);
 
     clearCompleted = new JButton("Clear completed");
-    clearCompleted.addActionListener(e -> onClearCompleted.run());
     add(clearCompleted);
 
     //
     // Bind
     //
     filter.addActionListener(e -> onFilterChanged.accept(getFilter()));
+    clearCompleted.addActionListener(e -> onClearCompleted.run());
   }
 
   Filter getFilter() {
