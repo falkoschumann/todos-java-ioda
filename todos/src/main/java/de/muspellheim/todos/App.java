@@ -14,6 +14,9 @@ import de.muspellheim.todos.frontend.TodosController;
 import java.nio.file.Paths;
 
 public class App {
+  // TODO Use models in frontend?
+  // TODO Extract request handler into backend for reuse in App FX and App SWT
+
   public static void main(String[] args) {
     //
     // Build
@@ -103,7 +106,9 @@ public class App {
           todosController.display(result);
         };
 
+    //
     // Run
+    //
     todosController.run();
   }
 }
