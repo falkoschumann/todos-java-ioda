@@ -26,4 +26,16 @@ public class SelectTodosQueryHandlerTests {
             List.of(new Todo(1, "Taste JavaScript", true), new Todo(2, "Buy Unicorn", false)));
     assertEquals(thenResult, result);
   }
+
+  @Test
+  void fails() {
+    var todosRepository = new FailureTodosRepository();
+    var selectTodos = new SelectTodosQueryHandler(todosRepository);
+
+    var whenQuery = new SelectTodosQuery();
+    var result = selectTodos.handle(whenQuery);
+
+    var thenResult = new SelectTodosQueryResult(List.of());
+    assertEquals(thenResult, result);
+  }
 }

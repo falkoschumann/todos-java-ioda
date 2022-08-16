@@ -1,10 +1,12 @@
 package de.muspellheim.todos.backend.messagehandlers;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.muspellheim.todos.backend.adapters.MemoryTodosRepository;
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.CommandStatus;
+import de.muspellheim.todos.contract.messages.Failure;
 import de.muspellheim.todos.contract.messages.SaveTodoCommand;
 import de.muspellheim.todos.contract.messages.Success;
 import java.util.List;
@@ -49,7 +51,21 @@ public class SaveTodoCommandHandlerTests {
 
     var status = saveTodo.handle(whenCommand);
 
+    assertAll(
+        () -> assertEquals(thenStatus, status),
+        () -> assertEquals(todosRepository.load(), thenTodos));
+  }
+
+  @Test
+  void fails() {
+    var todosRepository = new FailureTodosRepository();
+    var saveTodo = new SaveTodoCommandHandler(todosRepository);
+
+    var whenCommand = new SaveTodoCommand(1, "Taste JavaScript");
+    var status = saveTodo.handle(whenCommand);
+
+    var thenStatus =
+        new Failure("Todo \"Taste JavaScript\" (1) could not be saved.\n- something is strange");
     assertEquals(thenStatus, status);
-    assertEquals(todosRepository.load(), thenTodos);
   }
 }

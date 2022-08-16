@@ -1,10 +1,12 @@
 package de.muspellheim.todos.backend.messagehandlers;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.muspellheim.todos.backend.adapters.MemoryTodosRepository;
 import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.CommandStatus;
+import de.muspellheim.todos.contract.messages.Failure;
 import de.muspellheim.todos.contract.messages.Success;
 import de.muspellheim.todos.contract.messages.ToggleAllCommand;
 import java.util.List;
@@ -40,7 +42,20 @@ public class ToggleAllCommandHandlerTests {
 
     var status = toggleTodo.handle(whenCommand);
 
+    assertAll(
+        () -> assertEquals(thenStatus, status),
+        () -> assertEquals(todosRepository.load(), thenTodos));
+  }
+
+  @Test
+  void fails() {
+    var todosRepository = new FailureTodosRepository();
+    var toggleAll = new ToggleAllCommandHandler(todosRepository);
+
+    var whenCommand = new ToggleAllCommand(true);
+    var status = toggleAll.handle(whenCommand);
+
+    var thenStatus = new Failure("Could not set all todos as completed.\n- something is strange");
     assertEquals(thenStatus, status);
-    assertEquals(todosRepository.load(), thenTodos);
   }
 }
