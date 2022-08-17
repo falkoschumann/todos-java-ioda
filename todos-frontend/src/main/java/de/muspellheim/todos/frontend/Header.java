@@ -10,14 +10,16 @@ class Header extends Box {
   Consumer<String> onAddTodo;
   Consumer<Boolean> onToggleAll;
 
+  private final TodosModel model;
   private final JCheckBox toggleAll;
   private final JTextField newTodo;
 
-  Header() {
+  Header(TodosModel model) {
     //
     // Build
     //
     super(BoxLayout.X_AXIS);
+    this.model = model;
 
     // We can not place component outside clipping rect without custom clipping,
     // so we move toggle all from main to header.
@@ -33,25 +35,28 @@ class Header extends Box {
     //
     // Bind
     //
-    toggleAll.addActionListener(e -> onToggleAll.accept(toggleAll.isSelected()));
-    newTodo.addActionListener(
-        e -> {
-          var title = newTodo.getText().trim();
-          if (title.isEmpty()) {
-            return;
-          }
-
-          onAddTodo.accept(title);
-          newTodo.setText("");
-        });
+    model.addChangeListener(e -> handleStateChanged());
+    toggleAll.addActionListener(e -> handleToggleAll());
+    newTodo.addActionListener(e -> handleNewTodo());
   }
 
-  void setAllTodosCount(int c) {
-    toggleAll.setVisible(c > 0);
+  private void handleStateChanged() {
+    toggleAll.setVisible(model.existsTodos());
+    toggleAll.setSelected(model.isAllCompleted());
   }
 
-  void setActiveCount(int c) {
-    toggleAll.setSelected(c == 0);
+  private void handleToggleAll() {
+    onToggleAll.accept(toggleAll.isSelected());
+  }
+
+  private void handleNewTodo() {
+    var title = newTodo.getText().trim();
+    if (title.isEmpty()) {
+      return;
+    }
+
+    onAddTodo.accept(title);
+    newTodo.setText("");
   }
 
   @Override

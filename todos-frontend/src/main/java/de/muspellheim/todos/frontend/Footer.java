@@ -13,19 +13,20 @@ class Footer extends JPanel {
   Runnable onClearCompleted;
   Consumer<Filter> onFilterChanged;
 
+  private final TodosModel model;
   private final JLabel activeCount;
   private final JComboBox<Filter> filter;
   private final JButton clearCompleted;
 
-  Footer() {
+  Footer(TodosModel model) {
     //
     // Build
     //
-    GridBagLayout layout = new GridBagLayout();
+    this.model = model;
+    var layout = new GridBagLayout();
     setLayout(layout);
 
-    activeCount = new JLabel();
-    setActiveCount(0);
+    activeCount = new JLabel("<html><strong>0</strong> items left</html>");
     var border = BorderFactory.createEmptyBorder(5, 8, 5, 8);
     activeCount.setBorder(border);
     add(activeCount);
@@ -45,20 +46,24 @@ class Footer extends JPanel {
     //
     // Bind
     //
-    filter.addActionListener(e -> onFilterChanged.accept(getFilter()));
+    model.addChangeListener(e -> handleStateChanged());
+    filter.addActionListener(e -> changeFilter());
     clearCompleted.addActionListener(e -> onClearCompleted.run());
   }
 
-  Filter getFilter() {
-    return filter.getItemAt(filter.getSelectedIndex());
-  }
-
-  void setActiveCount(long c) {
+  private void handleStateChanged() {
+    setVisible(model.existsTodos());
     activeCount.setText(
-        "<html><strong>" + c + "</strong> " + Strings.pluralize(c, "item") + " left</html>");
+        "<html><strong>"
+            + model.activeCount()
+            + "</strong> "
+            + Strings.pluralize(model.activeCount(), "item")
+            + " left</html>");
+    clearCompleted.setVisible(model.existsCompleted());
   }
 
-  void setCompletedCount(long c) {
-    clearCompleted.setVisible(c > 0);
+  private void changeFilter() {
+    var f = filter.getItemAt(filter.getSelectedIndex());
+    onFilterChanged.accept(f);
   }
 }

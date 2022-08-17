@@ -1,7 +1,5 @@
 package de.muspellheim.todos.frontend;
 
-import de.muspellheim.todos.contract.data.Todo;
-import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javax.swing.Box;
@@ -12,24 +10,37 @@ class TodoList extends JScrollPane {
   BiConsumer<Integer, String> onSave;
   Consumer<Integer> onToggle;
 
-  private final Box view;
+  private final TodosModel model;
+  private final Box container;
 
-  TodoList() {
-    view = Box.createVerticalBox();
-    setViewportView(view);
+  TodoList(TodosModel model) {
+    //
+    // Build
+    //
+    this.model = model;
+    container = Box.createVerticalBox();
+    setViewportView(container);
+
+    //
+    // Bind
+    //
+    model.addChangeListener(e -> handleStateChanged());
   }
 
-  void setTodos(List<Todo> todos) {
-    view.removeAll();
-    for (var t : todos) {
+  private void handleStateChanged() {
+    setVisible(model.existsTodos());
+
+    // TODO update existing items if possible
+    container.removeAll();
+    for (var t : model.shownTodos()) {
       var item = new TodoItem(t);
       item.onDestroy = () -> onDestroy.accept(t.id());
       item.onSave = (title) -> onSave.accept(t.id(), title);
       item.onToggle = () -> onToggle.accept(t.id());
-      view.add(item);
+      container.add(item);
     }
-    view.add(Box.createVerticalGlue());
-    view.revalidate();
-    view.repaint();
+    container.add(Box.createVerticalGlue());
+    container.revalidate();
+    container.repaint();
   }
 }

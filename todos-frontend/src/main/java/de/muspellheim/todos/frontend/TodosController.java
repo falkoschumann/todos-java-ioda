@@ -1,6 +1,5 @@
 package de.muspellheim.todos.frontend;
 
-import de.muspellheim.todos.contract.data.Todo;
 import de.muspellheim.todos.contract.messages.AddTodoCommand;
 import de.muspellheim.todos.contract.messages.ClearCompletedCommand;
 import de.muspellheim.todos.contract.messages.DestroyTodoCommand;
@@ -26,12 +25,9 @@ public class TodosController {
   public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 
+  private final TodosModel model;
   private final JFrame frame;
   private final Header header;
-  private final TodoList todoList;
-  private final Footer footer;
-
-  private SelectTodosQueryResult selectedTodos;
 
   static {
     try {
@@ -45,6 +41,7 @@ public class TodosController {
     //
     // Build
     //
+    model = new TodosModel();
     frame = new JFrame("Todos");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(400, 600);
@@ -56,13 +53,13 @@ public class TodosController {
     container.setLayout(new BorderLayout());
     frame.add(container);
 
-    header = new Header();
+    header = new Header(model);
     container.add(header, BorderLayout.NORTH);
 
-    todoList = new TodoList();
+    TodoList todoList = new TodoList(model);
     container.add(todoList, BorderLayout.CENTER);
 
-    footer = new Footer();
+    Footer footer = new Footer(model);
     container.add(footer, BorderLayout.SOUTH);
 
     //
@@ -74,35 +71,15 @@ public class TodosController {
     todoList.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
     todoList.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
     footer.onClearCompleted = () -> onClearCompleted.accept(new ClearCompletedCommand());
-    footer.onFilterChanged = f -> update();
+    footer.onFilterChanged = model::setFilter;
   }
 
   public void display(SelectTodosQueryResult result) {
-    selectedTodos = result;
-    update();
+    model.updateTodos(result.todos());
   }
 
   public void showError(String message) {
     JOptionPane.showMessageDialog(frame, message, "Unexpected error", JOptionPane.ERROR_MESSAGE);
-  }
-
-  private void update() {
-    var activeTodos = selectedTodos.todos().stream().filter(t -> !t.completed()).toList();
-    var completedTodos = selectedTodos.todos().stream().filter(Todo::completed).toList();
-    var allTodos = selectedTodos.todos();
-    var todos =
-        switch (footer.getFilter()) {
-          case ACTIVE -> activeTodos;
-          case COMPLETED -> completedTodos;
-          default -> allTodos;
-        };
-    header.setAllTodosCount(allTodos.size());
-    header.setActiveCount(activeTodos.size());
-    todoList.setVisible(!allTodos.isEmpty());
-    todoList.setTodos(todos);
-    footer.setVisible(!allTodos.isEmpty());
-    footer.setActiveCount(activeTodos.size());
-    footer.setCompletedCount(completedTodos.size());
   }
 
   public void run() {
