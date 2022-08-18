@@ -16,44 +16,52 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 class TodoItem extends JPanel {
-  // TODO make todo item updatable
-
   Runnable onDestroy;
   Consumer<String> onSave;
   Runnable onToggle;
 
-  public static final String CARD_VIEW = "VIEW";
-  public static final String CARD_EDIT = "EDIT";
+  private static final String CARD_VIEW = "VIEW";
+  private static final String CARD_EDIT = "EDIT";
 
-  private final Todo todo;
   private final CardLayout layout;
-  private final JComponent edit;
+  private final View view;
+  private final Edit edit;
+  private Todo todo;
 
   TodoItem(Todo todo) {
-    this.todo = todo;
+    setName(todo.title() + " (" + todo.id() + ")");
     setMaximumSize(new Dimension(Short.MAX_VALUE, 0));
     setOpaque(false);
     layout = new CardLayout();
     setLayout(layout);
 
-    var view = new View();
+    view = new View();
     add(view, CARD_VIEW);
 
     edit = new Edit();
     add(edit, CARD_EDIT);
+
+    setTodo(todo);
   }
 
-  Todo getTodo() {
+  final Todo getTodo() {
     return todo;
   }
 
+  final void setTodo(Todo value) {
+    todo = value;
+    view.updateState();
+    edit.updateState();
+  }
+
   private class View extends Box {
+    private final JCheckBox completed;
+    private final JLabel title;
     private final JButton destroy;
 
     View() {
@@ -64,14 +72,10 @@ class TodoItem extends JPanel {
       setAlignmentX(Component.LEFT_ALIGNMENT);
       setPreferredSize(new Dimension(0, 28));
 
-      var completed = new JCheckBox("", todo.completed());
+      completed = new JCheckBox("");
       add(completed);
 
-      var text = todo.title();
-      if (todo.completed()) {
-        text = "<html><strike>" + text + "</strike><html>";
-      }
-      var title = new JLabel(text);
+      title = new JLabel();
       title.setMinimumSize(new Dimension(0, 28));
       title.setMaximumSize(new Dimension(Short.MAX_VALUE, 28));
       add(title);
@@ -90,6 +94,18 @@ class TodoItem extends JPanel {
       title.addMouseListener(new MouseHoverListener());
       destroy.addActionListener(e -> onDestroy.run());
       destroy.addMouseListener(new MouseHoverListener());
+    }
+
+    void updateState() {
+      completed.setSelected(todo.completed());
+      var text = todo.title();
+      if (todo.completed()) {
+        text = "<html><strike>" + text + "</strike><html>";
+      }
+      title.setText(text);
+
+      revalidate();
+      repaint();
     }
 
     private class MouseClickListener extends MouseAdapter {
@@ -123,7 +139,7 @@ class TodoItem extends JPanel {
       // Build
       //
       super(BoxLayout.X_AXIS);
-      title = new JTextField(todo.title());
+      title = new JTextField();
       add(title);
 
       //
@@ -133,6 +149,12 @@ class TodoItem extends JPanel {
       title.addFocusListener(new FocusLostListener());
     }
 
+    void updateState() {
+      title.setText(todo.title());
+      revalidate();
+      repaint();
+    }
+
     @Override
     public void requestFocus() {
       title.requestFocus();
@@ -140,7 +162,7 @@ class TodoItem extends JPanel {
 
     private void handleSubmit() {
       onSave.accept(title.getText());
-      layout.show(TodoItem.this, CARD_EDIT);
+      layout.show(TodoItem.this, CARD_VIEW);
     }
 
     private void handleCancel() {

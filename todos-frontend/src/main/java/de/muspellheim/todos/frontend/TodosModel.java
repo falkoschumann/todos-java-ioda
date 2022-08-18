@@ -38,14 +38,14 @@ class TodosModel {
     return !completedTodos.isEmpty();
   }
 
-  public void updateTodos(List<Todo> value) {
+  void setTodos(List<Todo> value) {
     activeTodos = value.stream().filter(t -> !t.completed()).toList();
     completedTodos = value.stream().filter(Todo::completed).toList();
     allTodos = List.copyOf(value);
     fireStateChanged();
   }
 
-  public void setFilter(Filter value) {
+  void setFilter(Filter value) {
     filter = value;
     fireStateChanged();
   }

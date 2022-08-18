@@ -83,7 +83,7 @@ public class TodosModelTests {
       boolean thenExistsCompleted) {
     var model = new TodosModel();
 
-    model.updateTodos(whenTodos);
+    model.setTodos(whenTodos);
     model.setFilter(whenFilter);
 
     assertAll(

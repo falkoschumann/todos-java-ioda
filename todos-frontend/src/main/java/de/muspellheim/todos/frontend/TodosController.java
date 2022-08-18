@@ -75,7 +75,7 @@ public class TodosController {
   }
 
   public void display(SelectTodosQueryResult result) {
-    model.updateTodos(result.todos());
+    model.setTodos(result.todos());
   }
 
   public void showError(String message) {

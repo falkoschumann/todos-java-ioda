@@ -1,6 +1,6 @@
 package de.muspellheim.todos.frontend;
 
-public class Strings {
+class Strings {
   private Strings() {}
 
   static String pluralize(long count, String word) {

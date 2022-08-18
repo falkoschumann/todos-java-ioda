@@ -1,6 +1,6 @@
 package de.muspellheim.todos.frontend;
 
-public enum Filter {
+enum Filter {
   ALL("All"),
   ACTIVE("Active"),
   COMPLETED("Completed");
