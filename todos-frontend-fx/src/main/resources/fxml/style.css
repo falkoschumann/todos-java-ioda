@@ -1,0 +1,7 @@
+* {
+  -fx-font-family: Verdana;
+}
+
+.font-bold {
+  -fx-font-weight: bold;
+}

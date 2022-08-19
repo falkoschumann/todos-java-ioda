@@ -1,2 +1,2 @@
 rootProject.name = 'todos'
-include('todos-contract', 'todos-backend', 'todos-frontend', 'todos')
+include('todos-contract', 'todos-backend', 'todos-frontend', 'todos', 'todos-frontend-fx', 'todos-fx')

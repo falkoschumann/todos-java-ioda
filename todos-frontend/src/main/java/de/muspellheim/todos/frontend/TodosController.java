@@ -74,17 +74,17 @@ public class TodosController {
     footer.onFilterChanged = model::setFilter;
   }
 
+  public void run() {
+    frame.setVisible(true);
+    header.requestFocus();
+    onSelectTodos.accept(new SelectTodosQuery());
+  }
+
   public void display(SelectTodosQueryResult result) {
     model.setTodos(result.todos());
   }
 
   public void showError(String message) {
     JOptionPane.showMessageDialog(frame, message, "Unexpected error", JOptionPane.ERROR_MESSAGE);
-  }
-
-  public void run() {
-    frame.setVisible(true);
-    header.requestFocus();
-    onSelectTodos.accept(new SelectTodosQuery());
   }
 }

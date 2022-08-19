@@ -1,4 +1,4 @@
-package de.muspellheim.todos;
+package de.muspellheim.todos.fx;
 
 import de.muspellheim.todos.backend.adapters.JsonTodosRepository;
 import de.muspellheim.todos.backend.messagehandlers.AddTodoCommandHandler;
@@ -10,23 +10,42 @@ import de.muspellheim.todos.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todos.backend.messagehandlers.ToggleTodoCommandHandler;
 import de.muspellheim.todos.contract.messages.Failure;
 import de.muspellheim.todos.contract.messages.SelectTodosQuery;
-import de.muspellheim.todos.frontend.TodosController;
+import de.muspellheim.todos.frontend.fx.TodosController;
 import java.nio.file.Paths;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class App {
+public class App extends Application {
+  private AddTodoCommandHandler addTodoCommandHandler;
+  private ClearCompletedCommandHandler clearCompletedCommandHandler;
+  private DestroyTodoCommandHandler destroyTodoCommandHandler;
+  private SaveTodoCommandHandler saveTodoCommandHandler;
+  private ToggleAllCommandHandler toggleAllCommandHandler;
+  private ToggleTodoCommandHandler toggleTodoCommandHandler;
+  private SelectTodosQueryHandler selectTodosQueryHandler;
+
   public static void main(String[] args) {
+    Application.launch(args);
+  }
+
+  @Override
+  public void init() {
     //
     // Build
     //
     var todosRepository = new JsonTodosRepository(Paths.get("todos.json"));
-    var addTodoCommandHandler = new AddTodoCommandHandler(todosRepository);
-    var clearCompletedCommandHandler = new ClearCompletedCommandHandler(todosRepository);
-    var destroyTodoCommandHandler = new DestroyTodoCommandHandler(todosRepository);
-    var saveTodoCommandHandler = new SaveTodoCommandHandler(todosRepository);
-    var toggleAllCommandHandler = new ToggleAllCommandHandler(todosRepository);
-    var toggleTodoCommandHandler = new ToggleTodoCommandHandler(todosRepository);
-    var selectTodosQueryHandler = new SelectTodosQueryHandler(todosRepository);
-    var todosController = new TodosController();
+    addTodoCommandHandler = new AddTodoCommandHandler(todosRepository);
+    clearCompletedCommandHandler = new ClearCompletedCommandHandler(todosRepository);
+    destroyTodoCommandHandler = new DestroyTodoCommandHandler(todosRepository);
+    saveTodoCommandHandler = new SaveTodoCommandHandler(todosRepository);
+    toggleAllCommandHandler = new ToggleAllCommandHandler(todosRepository);
+    toggleTodoCommandHandler = new ToggleTodoCommandHandler(todosRepository);
+    selectTodosQueryHandler = new SelectTodosQueryHandler(todosRepository);
+  }
+
+  @Override
+  public void start(Stage primaryStage) {
+    var todosController = TodosController.create(primaryStage);
 
     //
     // Bind

@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 import java.util.function.Consumer;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -81,7 +82,7 @@ class TodoItem extends JPanel {
       add(title);
 
       var url = TodoItem.class.getResource("/images/destroy.png");
-      assert url != null;
+      Objects.requireNonNull(url, "Resource not found: /images/destroy.png");
       destroy = new JButton(new ImageIcon(url));
       destroy.setVisible(false);
       add(destroy);

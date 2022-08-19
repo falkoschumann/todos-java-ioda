@@ -1,0 +1,13 @@
+plugins {
+  id 'de.muspellheim.todos.java-library-conventions'
+  id 'de.muspellheim.todos.java-openjfx-conventions'
+}
+
+dependencies {
+  api project(':todos-contract')
+}
+
+javafx {
+  version = '18.0.2'
+  modules = ['javafx.controls', 'javafx.fxml']
+}

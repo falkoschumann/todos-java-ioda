@@ -1,0 +1,19 @@
+plugins {
+  id 'de.muspellheim.todos.java-application-conventions'
+  id 'de.muspellheim.todos.java-openjfx-conventions'
+}
+
+dependencies {
+  implementation project(':todos-backend')
+  implementation project(':todos-frontend-fx')
+}
+
+application {
+  mainClass = 'de.muspellheim.todos.fx.App'
+  mainModule = 'de.muspellheim.todos.fx'
+}
+
+javafx {
+  version = '18.0.2'
+  modules = ['javafx.controls']
+}
