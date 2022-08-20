@@ -31,7 +31,7 @@ class TodoList extends JScrollPane {
   }
 
   private void handleStateChanged() {
-    setVisible(model.existsTodos());
+    setVisible(model.isExistsTodos());
 
     List<Todo> todos = model.shownTodos();
     for (var i = 0; i < todos.size(); i++) {

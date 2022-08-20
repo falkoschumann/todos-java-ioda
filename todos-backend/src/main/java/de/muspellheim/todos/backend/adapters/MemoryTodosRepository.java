@@ -7,6 +7,14 @@ import java.util.List;
 public class MemoryTodosRepository implements TodosRepository {
   private List<Todo> todos;
 
+  public MemoryTodosRepository() {
+    this(List.of());
+  }
+
+  public MemoryTodosRepository(List<Todo> todos) {
+    this.todos = todos;
+  }
+
   @Override
   public List<Todo> load() {
     return List.copyOf(todos);

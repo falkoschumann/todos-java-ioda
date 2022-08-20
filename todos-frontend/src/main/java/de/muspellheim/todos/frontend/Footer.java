@@ -52,14 +52,14 @@ class Footer extends JPanel {
   }
 
   private void handleStateChanged() {
-    setVisible(model.existsTodos());
+    setVisible(model.isExistsTodos());
     activeCount.setText(
         "<html><strong>"
-            + model.activeCount()
+            + model.getActiveCount()
             + "</strong> "
-            + Strings.pluralize(model.activeCount(), "item")
+            + Strings.pluralize(model.getActiveCount(), "item")
             + " left</html>");
-    clearCompleted.setVisible(model.existsCompleted());
+    clearCompleted.setVisible(model.isExistsCompleted());
   }
 
   private void changeFilter() {

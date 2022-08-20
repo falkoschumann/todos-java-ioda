@@ -41,7 +41,7 @@ class Header extends Box {
   }
 
   private void handleStateChanged() {
-    toggleAll.setVisible(model.existsTodos());
+    toggleAll.setVisible(model.isExistsTodos());
     toggleAll.setSelected(model.isAllCompleted());
   }
 

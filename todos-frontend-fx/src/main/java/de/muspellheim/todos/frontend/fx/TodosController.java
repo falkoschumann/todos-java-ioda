@@ -15,10 +15,14 @@ import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
@@ -31,12 +35,16 @@ public class TodosController {
   public Consumer<ToggleTodoCommand> onToggleTodo;
   public Consumer<SelectTodosQuery> onSelectTodos;
 
+  private final TodosModel model = new TodosModel();
+
   @FXML private Stage stage;
   @FXML private CheckBox toggleAll;
   @FXML private TextField newTodo;
   @FXML private ListView<Todo> todoList;
+  @FXML private Pane footer;
   @FXML private TextFlow itemsLeft;
   @FXML private ChoiceBox<Filter> filter;
+  @FXML private Button clearCompleted;
 
   public static TodosController create(Stage stage) {
     var viewPath = "/fxml/todos-view.fxml";
@@ -54,18 +62,51 @@ public class TodosController {
 
   @FXML
   private void initialize() {
+    //
+    // Build
+    //
+    todoList.setCellFactory(v -> createTodoCell());
+
     filter.getItems().addAll(Filter.values());
     filter.setValue(Filter.ALL);
 
-    newTodo.requestFocus();
+    //
+    // Bind
+    //
+    toggleAll.visibleProperty().bind(model.existsTodosProperty());
+    model.allCompletedProperty().addListener(e -> toggleAll.setSelected(model.isAllCompleted()));
+    todoList.visibleProperty().bind(model.existsTodosProperty());
+    todoList.setItems(model.getShownTodos());
+    footer.visibleProperty().bind(model.existsTodosProperty());
+    model
+        .activeCountProperty()
+        .addListener(
+            e -> {
+              var text1 = (Text) itemsLeft.getChildren().get(0);
+              text1.setText(String.valueOf(model.getActiveCount()));
+              var text2 = (Text) itemsLeft.getChildren().get(1);
+              text2.setText(Strings.pluralize(model.getActiveCount(), " item") + " left");
+            });
+    filter.setOnAction(e -> model.setFilter(filter.getValue()));
+    clearCompleted.visibleProperty().bind(model.existsCompletedProperty());
+  }
+
+  private ListCell<Todo> createTodoCell() {
+    TodoCell cell = new TodoCell();
+    cell.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
+    cell.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
+    cell.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
+    return cell;
   }
 
   public void run() {
     stage.show();
+    newTodo.requestFocus();
+    onSelectTodos.accept(new SelectTodosQuery());
   }
 
   public void display(SelectTodosQueryResult result) {
-    // TODO Implement me
+    model.setTodos(result.todos());
   }
 
   public void showError(String message) {
@@ -74,5 +115,26 @@ public class TodosController {
     alert.setHeaderText("Unexpected error");
     alert.setContentText(message);
     alert.show();
+  }
+
+  @FXML
+  private void handleToggleAll() {
+    onToggleAll.accept(new ToggleAllCommand(toggleAll.isSelected()));
+  }
+
+  @FXML
+  private void handleNewTodo() {
+    var title = newTodo.getText().trim();
+    if (title.isEmpty()) {
+      return;
+    }
+
+    onAddTodo.accept(new AddTodoCommand(newTodo.getText()));
+    newTodo.setText("");
+  }
+
+  @FXML
+  private void handleClearCompleted() {
+    onClearCompleted.accept(new ClearCompletedCommand());
   }
 }

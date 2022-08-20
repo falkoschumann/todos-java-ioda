@@ -22,10 +22,10 @@
          <root>
             <BorderPane prefHeight="600.0" prefWidth="400.0">
                <top>
-                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                  <HBox alignment="BASELINE_CENTER" spacing="8.0">
                      <children>
-                        <CheckBox fx:id="toggleAll" mnemonicParsing="false" />
-                        <TextField fx:id="newTodo" promptText="What needs to be done?" HBox.hgrow="ALWAYS" />
+                        <CheckBox fx:id="toggleAll" mnemonicParsing="false" onAction="#handleToggleAll" />
+                        <TextField fx:id="newTodo" onAction="#handleNewTodo" promptText="What needs to be done?" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
@@ -36,7 +36,7 @@
                   <ListView fx:id="todoList" BorderPane.alignment="CENTER" />
                </center>
                <bottom>
-                  <GridPane BorderPane.alignment="CENTER">
+                  <GridPane fx:id="footer" BorderPane.alignment="CENTER">
                      <columnConstraints>
                         <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -53,7 +53,7 @@
                            </children>
                         </TextFlow>
                         <ChoiceBox fx:id="filter" GridPane.columnIndex="1" />
-                        <Button mnemonicParsing="false" text="Clear completed" GridPane.columnIndex="2" />
+                        <Button fx:id="clearCompleted" mnemonicParsing="false" onAction="#handleClearCompleted" text="Clear completed" GridPane.columnIndex="2" />
                      </children>
                      <padding>
                         <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />

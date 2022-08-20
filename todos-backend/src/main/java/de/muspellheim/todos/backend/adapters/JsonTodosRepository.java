@@ -92,8 +92,8 @@ public class JsonTodosRepository implements TodosRepository {
   @NoArgsConstructor
   @AllArgsConstructor
   public static class TodoDto {
-    private int id;
-    private String title;
-    private boolean completed;
+    public int id;
+    public String title;
+    public boolean completed;
   }
 }

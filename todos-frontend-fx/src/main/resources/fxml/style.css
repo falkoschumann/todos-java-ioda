@@ -5,3 +5,8 @@
 .font-bold {
   -fx-font-weight: bold;
 }
+
+.line-through,
+.line-through .text {
+  -fx-strikethrough: true;
+}

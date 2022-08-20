@@ -1,4 +1,4 @@
-package de.muspellheim.todos.frontend;
+package de.muspellheim.todos.frontend.fx;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -88,7 +88,7 @@ public class TodosModelTests {
 
     assertAll(
         () -> assertEquals(thenExistsTodos, model.isExistsTodos(), "exists todos"),
-        () -> assertEquals(thenShownTodos, model.shownTodos(), "shown todos"),
+        () -> assertEquals(thenShownTodos, model.getShownTodos(), "shown todos"),
         () -> assertEquals(thenIsAllCompleted, model.isAllCompleted(), "is all completed"),
         () -> assertEquals(thenActiveCount, model.getActiveCount(), "active count"),
         () -> assertEquals(thenExistsCompleted, model.isExistsCompleted(), "exists completed"));

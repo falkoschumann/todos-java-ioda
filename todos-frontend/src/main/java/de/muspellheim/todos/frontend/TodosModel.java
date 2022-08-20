@@ -11,10 +11,10 @@ class TodosModel {
 
   private List<Todo> activeTodos;
   private List<Todo> completedTodos;
-  private List<Todo> allTodos;
+  private List<Todo> allTodos = List.of();
   private Filter filter = Filter.ALL;
 
-  boolean existsTodos() {
+  boolean isExistsTodos() {
     return !allTodos.isEmpty();
   }
 
@@ -30,11 +30,11 @@ class TodosModel {
     return !allTodos.isEmpty() && allTodos.size() == completedTodos.size();
   }
 
-  int activeCount() {
+  int getActiveCount() {
     return activeTodos.size();
   }
 
-  boolean existsCompleted() {
+  boolean isExistsCompleted() {
     return !completedTodos.isEmpty();
   }
 
