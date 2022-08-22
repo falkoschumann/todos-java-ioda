@@ -6,12 +6,12 @@ class Styles {
   private Styles() {}
 
   static void add(Node node, String style) {
-    if (!node.getStyleClass().contains("line-through")) {
-      node.getStyleClass().add("line-through");
+    if (!node.getStyleClass().contains(style)) {
+      node.getStyleClass().add(style);
     }
   }
 
   static void remove(Node node, String style) {
-    node.getStyleClass().remove("line-through");
+    node.getStyleClass().remove(style);
   }
 }

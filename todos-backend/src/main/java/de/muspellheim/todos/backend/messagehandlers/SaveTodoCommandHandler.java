@@ -20,7 +20,8 @@ public class SaveTodoCommandHandler {
   public CommandStatus handle(SaveTodoCommand command) {
     try {
       var todos = todosRepository.load();
-      todos = saveTodo(todos, command.id(), command.title());
+      var title = Todos.normalizeTitle(command.title());
+      todos = saveTodo(todos, command.id(), title);
       todosRepository.store(todos);
       return new Success();
     } catch (TodosRepositoryException e) {
@@ -37,12 +38,11 @@ public class SaveTodoCommandHandler {
         continue;
       }
 
-      var newTitle = title.trim();
-      if (newTitle.isEmpty()) {
+      if (title.isEmpty()) {
         continue;
       }
 
-      newTodos.add(new Todo(t.id(), newTitle, t.completed()));
+      newTodos.add(new Todo(t.id(), title, t.completed()));
     }
     return newTodos;
   }

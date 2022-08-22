@@ -19,7 +19,7 @@ public class AddTodoCommandHandler {
 
   public CommandStatus handle(AddTodoCommand command) {
     try {
-      var title = command.title().trim();
+      var title = Todos.normalizeTitle(command.title());
       if (title.isEmpty()) {
         return new Success();
       }
@@ -36,8 +36,7 @@ public class AddTodoCommandHandler {
 
   private static int getNextId(List<Todo> todos) {
     var id = todos.stream().mapToInt(Todo::id).max().orElse(0);
-    id++;
-    return id;
+    return id + 1;
   }
 
   private static List<Todo> addTodo(List<Todo> todos, int id, String title) {
