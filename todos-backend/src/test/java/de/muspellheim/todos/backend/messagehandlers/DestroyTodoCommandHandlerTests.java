@@ -26,8 +26,8 @@ public class DestroyTodoCommandHandlerTests {
     var thenStatus = new Success();
     var thenTodos = List.of(new Todo(1, "Taste JavaScript", true));
     assertAll(
-        () -> assertEquals(thenStatus, status),
-        () -> assertEquals(todosRepository.load(), thenTodos));
+        () -> assertEquals(thenStatus, status, "status"),
+        () -> assertEquals(todosRepository.load(), thenTodos, "todos"));
   }
 
   @Test
@@ -39,6 +39,6 @@ public class DestroyTodoCommandHandlerTests {
     var status = destroyTodo.handle(whenCommand);
 
     var thenStatus = new Failure("Todo \"1\" could not be destroyed.\n- something is strange");
-    assertEquals(thenStatus, status);
+    assertEquals(thenStatus, status, "status");
   }
 }

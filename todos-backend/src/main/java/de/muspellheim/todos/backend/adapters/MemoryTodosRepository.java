@@ -12,16 +12,16 @@ public class MemoryTodosRepository implements TodosRepository {
   }
 
   public MemoryTodosRepository(List<Todo> todos) {
-    this.todos = todos;
+    store(todos);
   }
 
   @Override
-  public List<Todo> load() {
-    return List.copyOf(todos);
+  public final List<Todo> load() {
+    return todos;
   }
 
   @Override
-  public void store(List<Todo> todos) {
-    this.todos = todos;
+  public final void store(List<Todo> todos) {
+    this.todos = List.copyOf(todos);
   }
 }

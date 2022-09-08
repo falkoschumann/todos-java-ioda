@@ -26,8 +26,8 @@ public class ClearCompletedCommandHandlerTests {
     var thenStatus = new Success();
     var thenTodos = List.of(new Todo(2, "Buy Unicorn", false));
     assertAll(
-        () -> assertEquals(thenStatus, status),
-        () -> assertEquals(todosRepository.load(), thenTodos));
+        () -> assertEquals(thenStatus, status, "status"),
+        () -> assertEquals(todosRepository.load(), thenTodos, "todos"));
   }
 
   @Test
@@ -39,6 +39,6 @@ public class ClearCompletedCommandHandlerTests {
     var status = clearCompleted.handle(whenCommand);
 
     var thenStatus = new Failure("Could not clear completed todos.\n- something is strange");
-    assertEquals(thenStatus, status);
+    assertEquals(thenStatus, status, "status");
   }
 }

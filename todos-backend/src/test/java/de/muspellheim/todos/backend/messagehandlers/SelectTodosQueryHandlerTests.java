@@ -36,6 +36,6 @@ public class SelectTodosQueryHandlerTests {
     var result = selectTodos.handle(whenQuery);
 
     var thenResult = new SelectTodosQueryResult(List.of());
-    assertEquals(thenResult, result);
+    assertEquals(thenResult, result, "result");
   }
 }

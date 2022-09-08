@@ -52,8 +52,8 @@ public class AddTodoCommandHandlerTests {
     var status = addTodo.handle(whenCommand);
 
     assertAll(
-        () -> assertEquals(thenStatus, status),
-        () -> assertEquals(todosRepository.load(), thenTodos));
+        () -> assertEquals(thenStatus, status, "status"),
+        () -> assertEquals(todosRepository.load(), thenTodos, "todos"));
   }
 
   @Test
@@ -66,6 +66,6 @@ public class AddTodoCommandHandlerTests {
 
     var thenStatus =
         new Failure("Todo \"Taste JavaScript\" could not be added.\n- something is strange");
-    assertEquals(thenStatus, status);
+    assertEquals(thenStatus, status, "status");
   }
 }

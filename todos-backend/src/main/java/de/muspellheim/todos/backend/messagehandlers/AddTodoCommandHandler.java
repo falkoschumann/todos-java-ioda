@@ -25,8 +25,7 @@ public class AddTodoCommandHandler {
       }
 
       var todos = todosRepository.load();
-      var id = getNextId(todos);
-      todos = addTodo(todos, id, title);
+      todos = addTodo(todos, title);
       todosRepository.store(todos);
       return new Success();
     } catch (TodosRepositoryException e) {
@@ -39,7 +38,8 @@ public class AddTodoCommandHandler {
     return id + 1;
   }
 
-  private static List<Todo> addTodo(List<Todo> todos, int id, String title) {
+  private static List<Todo> addTodo(List<Todo> todos, String title) {
+    var id = getNextId(todos);
     var newTodos = new ArrayList<>(todos);
     newTodos.add(new Todo(id, title, false));
     return newTodos;

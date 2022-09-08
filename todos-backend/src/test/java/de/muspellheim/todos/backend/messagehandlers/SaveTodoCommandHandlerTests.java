@@ -52,8 +52,8 @@ public class SaveTodoCommandHandlerTests {
     var status = saveTodo.handle(whenCommand);
 
     assertAll(
-        () -> assertEquals(thenStatus, status),
-        () -> assertEquals(todosRepository.load(), thenTodos));
+        () -> assertEquals(thenStatus, status, "status"),
+        () -> assertEquals(todosRepository.load(), thenTodos, "todos"));
   }
 
   @Test
@@ -66,6 +66,6 @@ public class SaveTodoCommandHandlerTests {
 
     var thenStatus =
         new Failure("Todo \"Taste JavaScript\" (1) could not be saved.\n- something is strange");
-    assertEquals(thenStatus, status);
+    assertEquals(thenStatus, status, "status");
   }
 }

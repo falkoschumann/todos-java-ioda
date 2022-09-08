@@ -43,8 +43,8 @@ public class ToggleAllCommandHandlerTests {
     var status = toggleTodo.handle(whenCommand);
 
     assertAll(
-        () -> assertEquals(thenStatus, status),
-        () -> assertEquals(todosRepository.load(), thenTodos));
+        () -> assertEquals(thenStatus, status, "status"),
+        () -> assertEquals(todosRepository.load(), thenTodos, "todos"));
   }
 
   @Test
@@ -56,6 +56,6 @@ public class ToggleAllCommandHandlerTests {
     var status = toggleAll.handle(whenCommand);
 
     var thenStatus = new Failure("Could not set all todos as completed.\n- something is strange");
-    assertEquals(thenStatus, status);
+    assertEquals(thenStatus, status, "status");
   }
 }
