@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
   id 'de.muspellheim.todos.java-application-conventions'
   id 'de.muspellheim.todos.java-openjfx-conventions'
@@ -16,4 +18,24 @@ application {
 javafx {
   version = '18.0.2'
   modules = ['javafx.controls']
+}
+
+if (Os.isFamily(Os.FAMILY_MAC)) {
+  jlink {
+    jpackage {
+      imageName = 'Todos'
+    }
+  }
+}
+
+if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+  jlink {
+    jpackage {
+      imageName = 'Todos'
+      installerName = 'todos'
+      installerOptions += [
+        '--win-upgrade-uuid', 'f63bdf14-a1a5-41a1-9e86-fa9c9923dc6b'
+      ]
+    }
+  }
 }
