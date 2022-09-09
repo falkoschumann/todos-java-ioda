@@ -33,7 +33,8 @@ public class App extends Application {
     //
     // Build
     //
-    var todosRepository = new JsonTodosRepository(Paths.get("todos.json"));
+    var todosRepository =
+        new JsonTodosRepository(Paths.get(System.getProperty("user.home"), "todos.json"));
     addTodoCommandHandler = new AddTodoCommandHandler(todosRepository);
     clearCompletedCommandHandler = new ClearCompletedCommandHandler(todosRepository);
     destroyTodoCommandHandler = new DestroyTodoCommandHandler(todosRepository);
