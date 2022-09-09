@@ -8,11 +8,11 @@ import java.util.List;
 public class FailureTodosRepository implements TodosRepository {
   @Override
   public List<Todo> load() throws TodosRepositoryException {
-    throw new TodosRepositoryException("something is strange");
+    throw new TodosRepositoryException("Something is strange.");
   }
 
   @Override
   public void store(List<Todo> todos) throws TodosRepositoryException {
-    throw new TodosRepositoryException("something is strange");
+    throw new TodosRepositoryException("Something is strange.");
   }
 }

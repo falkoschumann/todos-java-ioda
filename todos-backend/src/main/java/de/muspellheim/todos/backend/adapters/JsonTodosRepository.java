@@ -37,7 +37,7 @@ public class JsonTodosRepository implements TodosRepository {
     try {
       return Files.readString(file);
     } catch (IOException e) {
-      throw new TodosRepositoryException("could not read file: " + file, e);
+      throw new TodosRepositoryException("Could not read file " + file + ".", e);
     }
   }
 
@@ -45,7 +45,7 @@ public class JsonTodosRepository implements TodosRepository {
     try {
       return new Gson().fromJson(json, TodoDto[].class);
     } catch (JsonSyntaxException e) {
-      throw new TodosRepositoryException("not a valid JSON file: " + file, e);
+      throw new TodosRepositoryException("Not a valid JSON file " + file + ".", e);
     }
   }
 
@@ -58,7 +58,7 @@ public class JsonTodosRepository implements TodosRepository {
         todos.add(todo);
       } catch (NullPointerException | IllegalArgumentException ex) {
         throw new TodosRepositoryException(
-            "todo " + (i + 1) + " read from file " + file + " is not valid: " + e, ex);
+            "Todo " + (i + 1) + " read from file " + file + " is not valid.", ex);
       }
     }
     return todos;
@@ -84,7 +84,7 @@ public class JsonTodosRepository implements TodosRepository {
     try {
       Files.writeString(file, json);
     } catch (IOException e) {
-      throw new TodosRepositoryException("could not write todos to file: " + file, e);
+      throw new TodosRepositoryException("Could not write todos to file " + file + ".", e);
     }
   }
 

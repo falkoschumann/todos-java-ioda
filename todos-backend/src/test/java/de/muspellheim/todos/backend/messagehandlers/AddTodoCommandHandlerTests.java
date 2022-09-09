@@ -65,7 +65,7 @@ public class AddTodoCommandHandlerTests {
     var status = addTodo.handle(whenCommand);
 
     var thenStatus =
-        new Failure("Todo \"Taste JavaScript\" could not be added.\n- something is strange");
+        new Failure("Todo \"Taste JavaScript\" could not be added.\n- Something is strange.");
     assertEquals(thenStatus, status, "status");
   }
 }

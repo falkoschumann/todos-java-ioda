@@ -38,7 +38,7 @@ public class DestroyTodoCommandHandlerTests {
     var whenCommand = new DestroyTodoCommand(1);
     var status = destroyTodo.handle(whenCommand);
 
-    var thenStatus = new Failure("Todo \"1\" could not be destroyed.\n- something is strange");
+    var thenStatus = new Failure("Todo \"1\" could not be destroyed.\n- Something is strange.");
     assertEquals(thenStatus, status, "status");
   }
 }

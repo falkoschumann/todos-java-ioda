@@ -38,7 +38,7 @@ public class ClearCompletedCommandHandlerTests {
     var whenCommand = new ClearCompletedCommand();
     var status = clearCompleted.handle(whenCommand);
 
-    var thenStatus = new Failure("Could not clear completed todos.\n- something is strange");
+    var thenStatus = new Failure("Could not clear completed todos.\n- Something is strange.");
     assertEquals(thenStatus, status, "status");
   }
 }

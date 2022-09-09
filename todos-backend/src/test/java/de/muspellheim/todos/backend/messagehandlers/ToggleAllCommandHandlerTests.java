@@ -55,7 +55,7 @@ public class ToggleAllCommandHandlerTests {
     var whenCommand = new ToggleAllCommand(true);
     var status = toggleAll.handle(whenCommand);
 
-    var thenStatus = new Failure("Could not set all todos as completed.\n- something is strange");
+    var thenStatus = new Failure("Could not set all todos as completed.\n- Something is strange.");
     assertEquals(thenStatus, status, "status");
   }
 }

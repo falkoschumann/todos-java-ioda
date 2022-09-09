@@ -56,7 +56,7 @@ public class TodosController {
       loader.load();
       return loader.getController();
     } catch (IOException e) {
-      throw new RuntimeException("Could not load view from: " + viewPath, e);
+      throw new RuntimeException("Could not load view from " + viewPath + ".", e);
     }
   }
 

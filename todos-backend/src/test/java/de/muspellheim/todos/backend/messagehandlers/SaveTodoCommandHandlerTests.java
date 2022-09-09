@@ -65,7 +65,7 @@ public class SaveTodoCommandHandlerTests {
     var status = saveTodo.handle(whenCommand);
 
     var thenStatus =
-        new Failure("Todo \"Taste JavaScript\" (1) could not be saved.\n- something is strange");
+        new Failure("Todo \"Taste JavaScript\" (1) could not be saved.\n- Something is strange.");
     assertEquals(thenStatus, status, "status");
   }
 }

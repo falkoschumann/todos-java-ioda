@@ -55,7 +55,7 @@ public class ToggleTodoCommandHandlerTests {
     var whenCommand = new ToggleTodoCommand(1);
     var status = toggleTodo.handle(whenCommand);
 
-    var thenStatus = new Failure("Todo \"1\" could not be toggled.\n- something is strange");
+    var thenStatus = new Failure("Todo \"1\" could not be toggled.\n- Something is strange.");
     assertEquals(thenStatus, status, "status");
   }
 }
