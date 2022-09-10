@@ -3,6 +3,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 plugins {
   id 'de.muspellheim.todos.java-application-conventions'
   id 'de.muspellheim.todos.java-openjfx-conventions'
+  id 'de.muspellheim.todos.java-self-contained-application-conventions'
 }
 
 dependencies {
