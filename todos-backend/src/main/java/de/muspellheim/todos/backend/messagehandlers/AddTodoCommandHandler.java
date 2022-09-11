@@ -33,13 +33,9 @@ public class AddTodoCommandHandler {
     }
   }
 
-  private static int getNextId(List<Todo> todos) {
-    var id = todos.stream().mapToInt(Todo::id).max().orElse(0);
-    return id + 1;
-  }
-
   private static List<Todo> addTodo(List<Todo> todos, String title) {
-    var id = getNextId(todos);
+    var id = todos.stream().mapToInt(Todo::id).max().orElse(0);
+    id++;
     var newTodos = new ArrayList<>(todos);
     newTodos.add(new Todo(id, title, false));
     return newTodos;

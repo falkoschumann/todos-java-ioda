@@ -51,7 +51,7 @@ public class App extends Application {
     //
     // Bind
     //
-    todosController.onAddTodo =
+    todosController.onAddTodoCommand =
         command -> {
           var status = addTodoCommandHandler.handle(command);
           if (status instanceof Failure) {
@@ -62,7 +62,7 @@ public class App extends Application {
           var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(result);
         };
-    todosController.onClearCompleted =
+    todosController.onClearCompletedCommand =
         command -> {
           var status = clearCompletedCommandHandler.handle(command);
           if (status instanceof Failure) {
@@ -73,7 +73,7 @@ public class App extends Application {
           var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(result);
         };
-    todosController.onDestroyTodo =
+    todosController.onDestroyTodoCommand =
         command -> {
           var status = destroyTodoCommandHandler.handle(command);
           if (status instanceof Failure) {
@@ -84,7 +84,7 @@ public class App extends Application {
           var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(result);
         };
-    todosController.onSaveTodo =
+    todosController.onSaveTodoCommand =
         command -> {
           var status = saveTodoCommandHandler.handle(command);
           if (status instanceof Failure) {
@@ -95,7 +95,7 @@ public class App extends Application {
           var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(result);
         };
-    todosController.onToggleAll =
+    todosController.onToggleAllCommand =
         command -> {
           var status = toggleAllCommandHandler.handle(command);
           if (status instanceof Failure) {
@@ -106,7 +106,7 @@ public class App extends Application {
           var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(result);
         };
-    todosController.onToggleTodo =
+    todosController.onToggleTodoCommand =
         command -> {
           var status = toggleTodoCommandHandler.handle(command);
           if (status instanceof Failure) {
@@ -117,7 +117,7 @@ public class App extends Application {
           var result = selectTodosQueryHandler.handle(new SelectTodosQuery());
           todosController.display(result);
         };
-    todosController.onSelectTodos =
+    todosController.onSelectTodosQuery =
         query -> {
           var result = selectTodosQueryHandler.handle(query);
           todosController.display(result);

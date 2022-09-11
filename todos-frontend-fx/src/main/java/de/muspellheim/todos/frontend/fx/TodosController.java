@@ -27,13 +27,13 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 public class TodosController {
-  public Consumer<AddTodoCommand> onAddTodo;
-  public Consumer<ClearCompletedCommand> onClearCompleted;
-  public Consumer<DestroyTodoCommand> onDestroyTodo;
-  public Consumer<SaveTodoCommand> onSaveTodo;
-  public Consumer<ToggleAllCommand> onToggleAll;
-  public Consumer<ToggleTodoCommand> onToggleTodo;
-  public Consumer<SelectTodosQuery> onSelectTodos;
+  public Consumer<AddTodoCommand> onAddTodoCommand;
+  public Consumer<ClearCompletedCommand> onClearCompletedCommand;
+  public Consumer<DestroyTodoCommand> onDestroyTodoCommand;
+  public Consumer<SaveTodoCommand> onSaveTodoCommand;
+  public Consumer<ToggleAllCommand> onToggleAllCommand;
+  public Consumer<ToggleTodoCommand> onToggleTodoCommand;
+  public Consumer<SelectTodosQuery> onSelectTodosQuery;
 
   private final TodosModel model = new TodosModel();
 
@@ -93,16 +93,16 @@ public class TodosController {
 
   private ListCell<Todo> createTodoCell() {
     TodoCell cell = new TodoCell();
-    cell.onDestroy = id -> onDestroyTodo.accept(new DestroyTodoCommand(id));
-    cell.onSave = (id, title) -> onSaveTodo.accept(new SaveTodoCommand(id, title));
-    cell.onToggle = id -> onToggleTodo.accept(new ToggleTodoCommand(id));
+    cell.onDestroy = id -> onDestroyTodoCommand.accept(new DestroyTodoCommand(id));
+    cell.onSave = (id, title) -> onSaveTodoCommand.accept(new SaveTodoCommand(id, title));
+    cell.onToggle = id -> onToggleTodoCommand.accept(new ToggleTodoCommand(id));
     return cell;
   }
 
   public void run() {
     stage.show();
     newTodo.requestFocus();
-    onSelectTodos.accept(new SelectTodosQuery());
+    onSelectTodosQuery.accept(new SelectTodosQuery());
   }
 
   public void display(SelectTodosQueryResult result) {
@@ -119,7 +119,7 @@ public class TodosController {
 
   @FXML
   private void handleToggleAll() {
-    onToggleAll.accept(new ToggleAllCommand(toggleAll.isSelected()));
+    onToggleAllCommand.accept(new ToggleAllCommand(toggleAll.isSelected()));
   }
 
   @FXML
@@ -129,12 +129,12 @@ public class TodosController {
       return;
     }
 
-    onAddTodo.accept(new AddTodoCommand(newTodo.getText()));
+    onAddTodoCommand.accept(new AddTodoCommand(newTodo.getText()));
     newTodo.setText("");
   }
 
   @FXML
   private void handleClearCompleted() {
-    onClearCompleted.accept(new ClearCompletedCommand());
+    onClearCompletedCommand.accept(new ClearCompletedCommand());
   }
 }
